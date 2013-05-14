@@ -1,0 +1,9 @@
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+P                                 P
+P                                 P
+P                                 P
+P                                 P
+P1   2   3              4    PPPPPP
+P                            T    P
+PC                           B   XP
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
