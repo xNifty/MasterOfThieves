@@ -18,7 +18,7 @@ class Player(Entity):
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = Rect(x, y, 32, 40)
 
-    def update(self, up, down, left, right, platforms):
+    def update(self, up, left, right, platforms):
         """Handle the directions of the character and change the image based on left or right."""
         if up:
             # only jump if on the ground
@@ -90,4 +90,4 @@ class Player(Entity):
         self.coin_count += 1
 
     def resetCoins(self):
-        self.coin_count == 0
+        self.coin_count = 0

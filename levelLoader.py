@@ -88,11 +88,9 @@ class levelLoader(object):
 
 		# Try loading in the level image and theme; if it fails, use level 0 theme and background
 		try:
-		    self.theme = (Themes(self.level))
 		    self.background = pygame.image.load('images/backgrounds/background' + str(self.level) + '.png').convert_alpha()
 		    self.background_rect = self.background.get_rect()
 		except:
-		    self.theme = (Themes(0)) # Instead of passing level we explicity pass level 0 as we know it exists (unless the user deletes it)
 		    self.background = pygame.image.load('images/backgrounds/background0.png').convert_alpha()
 		    self.background_rect = self.background.get_rect()
 

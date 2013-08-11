@@ -23,12 +23,13 @@ from camera import *
 
 os.environ['SDL_VIDEO_CENTERED'] = '1' # Attempt to center the game window on the users screen; may not always work
 
-# The below globals are used throughout; disliked them, but they wouldn't work any other way.
-global current_level, deaths, deaths_total, volume
+# The below globals are used throughout; disliked them, but they wouldn't work any other way.\
+# Retry moving deaths out to the player class, last time didn't work, but trying again is always nice
+global current_level, volume, deaths, deaths_total
 current_level = 3
 deaths = 0
 deaths_total = 0
-volume = 0.2 # Maximum volume
+volume = 0.2 # Maximum volume - handle this elsewhere?
 
 # Initialize PyGame
 pygame.init()
@@ -37,21 +38,18 @@ pygame.init()
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 sounds = Sounds()
 levelLoader = levelLoader(current_level)
-theme = (Themes(-1)) # Themes(-1) is the theme name within the /sounds/themes folder
-pygame.mixer.music.play(-1, 0.0)
-pygame.mixer.music.set_volume(volume)
 
 def main():
     """The main loop of the game.  It handles loading the levels, key strokes, playing music and sounds; relies heavily on multiple other classes to function correctly.
         These include the camera, coins, door, entities, platform, player, sounds, spike, themes, and trophies classes."""
     gc.enable() # Garbage collector
-    global cameraX, cameraY, current_level, deaths, deaths_total, volume # Load in the global variables
+    global cameraX, cameraY, current_level, volume, deaths, deaths_total # Load in the global variables
     pygame.mixer.pre_init(44100, -16, 2, 2048) # Initilize the music
     screen = pygame.display.set_mode(DISPLAY, FLAGS, DEPTH) # Set the screen information
     screen_rect = screen.get_rect()
     timer = pygame.time.Clock()
 
-    show_debug = False
+    show_debug = False # this could probably be moved into a function in the player class
 
     # We don't want to see the normal mouse cursor while playing.
     pygame.mouse.set_visible(False)
@@ -62,7 +60,7 @@ def main():
 
     loading_bar = pygame.transform.scale(pygame.image.load("images/button.png"), (WIN_WIDTH, 35)) # Loading bar image (so that the "Loading Level (level)..." text is visible)
 
-    up = down = left = right = running = False # Set all key strokes (directions) to False
+    up = left = right = running = False # Set all key strokes (directions) to False
 
     # Load in the first level by assigning sprites into groups and into the platforms and coin_list lists
     # Read about what each thing does in the respective class
@@ -137,6 +135,9 @@ def main():
             if e.type == KEYDOWN and e.key == K_d:
                 levelLoader.getPlayer().direction = 'right'
                 right = True
+            if e.type == KEYDOWN and e.key == K_y:
+                print levelLoader.getPlayer().getDeathTotal()
+                print levelLoader.getPlayer().getLevelDeaths()
             if e.type == KEYDOWN and e.key == K_RETURN:
                 levelLoader.getPlayer().dead = True
             if e.type == KEYDOWN and e.key == K_LSHIFT:
@@ -195,17 +196,16 @@ def main():
         # Player collision with spike; if true, kill the player
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
             levelLoader.getPlayer().dead = True
-            pygame.mixer.music.stop()
 
         # If the player is dead, reset all key strokes to False, play the death sound, empty all groups and lists and reload the level, add one to both total and level deaths_total
         if levelLoader.getPlayer().dead == True:
-            deaths += 1
-            deaths_total += 1
             levelLoader.getPlayer().onGround = True
             levelLoader.rebuildDoors()
             up = False
             right = False
             left = False
+            deaths += 1
+            deaths_total += 1
             levelLoader.getPlayer().resetCoins()
             levelLoader.clearScreen()
             pygame.display.update()
@@ -213,9 +213,6 @@ def main():
             pause.sleep(1)
             levelLoader.buildLevel()
             levelLoader.entities.add(levelLoader.getPlayer()) # Finally, add player to entities so it appears
-            theme = (Themes(current_level))
-            pygame.mixer.music.play(-1, 0.0)
-            pygame.mixer.music.set_volume(volume)
 
         # If the coin count is four, then set the door status to False, kill the door sprites and remove from the platforms list
         # When door_closed is True it means the door can be removed when the coins are all collected; False means it's been collected. This check was added to prevent it from continually playing the sounds.
@@ -230,12 +227,12 @@ def main():
         camera.update(levelLoader.getPlayer())
 
         # Update the player and everything else
-        levelLoader.getPlayer().update(up, down, left, right, levelLoader.getPlatforms())
+        levelLoader.getPlayer().update(up, left, right, levelLoader.getPlatforms())
         for e in levelLoader.getEntities():
             screen.blit(e.image, camera.apply(e))
 
         # Small debug window
-        if show_debug == True:
+        if show_debug == True: # player class function?
             font = pygame.font.SysFont("arial", 25)
             debug = font.render("Information Window", True, (255,255,255))
             death_status = font.render("player.canDie: " + str(levelLoader.getPlayer().canDie), True, (255,255,255))
