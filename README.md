@@ -7,6 +7,8 @@ are copyrighted, we decided in this version to be a tribute to Nintendo and have
 document at a later time, which contains everything you would need concerning all of this.
 
 
+Important
+----------
 Please note: all Nintendo, Rare, and Sega sprites and music are copyrighted by their respected owners and/or creators
 and are being used in this game; no monetary gain is being made from this game and we are in no way profitting from
 the use of the stated themes, music, sprites, or anything of the.
