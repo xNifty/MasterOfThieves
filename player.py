@@ -12,19 +12,18 @@ class Player(Entity):
         self.direction = 'right'
         self.onGround = True
         self.canDie = True
+        self.coin_count = 0
         self.image = pygame.transform.scale(pygame.image.load("images/Thief.png"), (40, 40))
         self.image.convert_alpha()
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = Rect(x, y, 32, 40)
 
-    def update(self, up, down, left, right, running, platforms):
+    def update(self, up, down, left, right, platforms):
         """Handle the directions of the character and change the image based on left or right."""
         if up:
             # only jump if on the ground
             if self.onGround: 
                 self.yvel -= 10
-        if running:
-            self.xvel = 12
         if left and self.dead == False:
             self.direction = 'left'
             self.image = pygame.transform.scale(pygame.image.load("images/Thief2.png"), (40, 40))
@@ -80,3 +79,15 @@ class Player(Entity):
 
     def getStatus(self):
         return self.dead
+
+    def getCoins(self):
+        return self.coin_count
+
+    def setCoins(self):
+        self.coin_count = 4
+
+    def addCoin(self):
+        self.coin_count += 1
+
+    def resetCoins(self):
+        self.coin_count == 0

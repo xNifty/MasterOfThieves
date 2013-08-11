@@ -12,16 +12,14 @@ from trophies import Trophy
 from themes import Themes
 
 class levelLoader(object):
-	def __init__(self, level, volume):
+	def __init__(self, level):
 		self.level = level
-		self.volume = volume
 		self.platforms = []
+
+		self.doorsClosed = True
 
 		self.entities = pygame.sprite.Group()
 		self.coin = pygame.sprite.Group()
-		#self.coinB = pygame.sprite.Group()
-		#self.coinC = pygame.sprite.Group()
-		#self.coinD = pygame.sprite.Group()
 		self.spikes = pygame.sprite.Group()
 		self.trophies = pygame.sprite.Group()
 		self.x = 0
@@ -35,11 +33,11 @@ class levelLoader(object):
 		            self.platforms.insert(0, p) # Insert it into the platforms list
 		            self.entities.add(p) # Add to entities so it appears on screen
 		        if col == "C":
-					print "Character found!"
+					#print "Character found!"
 					self.charX = self.x # The character x found from file loading
 					self.charY = self.y # The character y found from file loading
 					self.player = Player(self.charX, self.charY) # Set the player along with the x,y of the starting position
-					print "yes, player!"
+					#print "yes, player!"
 		        if col == "A":
 		            spike = Spike(self.x, self.y, 1) # Load a spike at the x,y found 
 		            self.entities.add(spike) # Add the spike to the entities
@@ -93,14 +91,10 @@ class levelLoader(object):
 		    self.theme = (Themes(self.level))
 		    self.background = pygame.image.load('images/backgrounds/background' + str(self.level) + '.png').convert_alpha()
 		    self.background_rect = self.background.get_rect()
-		    self.pygame.mixer.music.play(-1, 0.0)
-		    self.pygame.mixer.music.set_volume(self.volume)
 		except:
 		    self.theme = (Themes(0)) # Instead of passing level we explicity pass level 0 as we know it exists (unless the user deletes it)
 		    self.background = pygame.image.load('images/backgrounds/background0.png').convert_alpha()
 		    self.background_rect = self.background.get_rect()
-		    #self.pygame.mixer.music.play(-1, 0.0) # Endlessly loop the music
-		    #self.pygame.mixer.music.set_volume(self.volume) # Set the music volume
 
 	def getPlayer(self):
 		return self.player
@@ -130,11 +124,18 @@ class levelLoader(object):
 		return self.background
 
 	def delPlatforms(self):
-		self.platforms[-1]
+		del self.platforms[-1]
 
 	def delDoors(self):
+		self.doorsClosed = False
 		self.doorA.kill()
 		self.doorB.kill()
+
+	def rebuildDoors(self):
+		self.doorsClosed = True
+
+	def doorStatus(self):
+		return self.doorsClosed
 
 	def clearScreen(self):
 		self.player.onGround = True
@@ -149,16 +150,13 @@ class levelLoader(object):
 		self.spikes.empty()
 		self.coin.empty()
 
-	def rebuildObjects(self, level, volume):
+	def rebuildObjects(self, level):
 		self.level = level
-		self.volume = volume
 		self.platforms = []
+		self.doorsClosed = True
 		self.player = Player(self.charX, self.charY)
 		self.entities = pygame.sprite.Group()
 		self.coin = pygame.sprite.Group()
-		#self.coinB = pygame.sprite.Group()
-		#self.coinC = pygame.sprite.Group()
-		#self.coinD = pygame.sprite.Group()
 		self.spikes = pygame.sprite.Group()
 		self.trophies = pygame.sprite.Group()
 		self.x = 0
