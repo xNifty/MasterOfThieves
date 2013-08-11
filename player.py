@@ -11,7 +11,7 @@ class Player(Entity):
         self.dead = False
         self.direction = 'right'
         self.onGround = True
-        self.running = False
+        self.canDie = True
         self.image = pygame.transform.scale(pygame.image.load("images/Thief.png"), (40, 40))
         self.image.convert_alpha()
         self.mask = pygame.mask.from_surface(self.image)
@@ -25,13 +25,13 @@ class Player(Entity):
                 self.yvel -= 10
         if running:
             self.xvel = 12
-        if left:
+        if left and self.dead == False:
             self.direction = 'left'
             self.image = pygame.transform.scale(pygame.image.load("images/Thief2.png"), (40, 40))
             self.image.convert_alpha()
             self.mask = pygame.mask.from_surface(self.image)
             self.xvel = -8
-        if right:
+        if right and self.dead == False:
             self.direction = 'right'
             self.image = pygame.transform.scale(pygame.image.load("images/Thief.png"), (40, 40))
             self.image.convert_alpha()
@@ -77,3 +77,6 @@ class Player(Entity):
                 if yvel < 0:
                     self.rect.top = p.rect.bottom
                     self.yvel = 0
+
+    def getStatus(self):
+        return self.dead
