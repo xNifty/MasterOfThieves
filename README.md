@@ -6,6 +6,16 @@ three of us who contributed in different ways.  Although nearly all of the sprit
 are copyrighted, we decided in this version to be a tribute to Nintendo and have some fun.  I'll upload the game design
 document at a later time, which contains everything you would need concerning all of this.
 
+Currently
+---------
+Currently am fixing up level loading and music / themes depending on instance.
+
+Issues
+------
+Known issues include:
+* Music not playing
+* Failing to load level / theme
+* others I cannot remember
 
 Important
 ----------
