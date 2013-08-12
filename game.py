@@ -25,8 +25,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1' # Attempt to center the game window on th
 
 # The below globals are used throughout; disliked them, but they wouldn't work any other way.\
 # Retry moving deaths out to the player class, last time didn't work, but trying again is always nice
-global current_level, volume, deaths, deaths_total
-current_level = 3
+global volume, deaths, deaths_total
 deaths = 0
 deaths_total = 0
 volume = 0.2 # Maximum volume - handle this elsewhere?
@@ -37,13 +36,14 @@ pygame.init()
 # The menu music; ends when the first level begins
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 sounds = Sounds()
-levelLoader = levelLoader(current_level)
+
+levelLoader = levelLoader()
 
 def main():
     """The main loop of the game.  It handles loading the levels, key strokes, playing music and sounds; relies heavily on multiple other classes to function correctly.
         These include the camera, coins, door, entities, platform, player, sounds, spike, themes, and trophies classes."""
     gc.enable() # Garbage collector
-    global cameraX, cameraY, current_level, volume, deaths, deaths_total # Load in the global variables
+    global cameraX, cameraY, volume, deaths, deaths_total # Load in the global variables
     pygame.mixer.pre_init(44100, -16, 2, 2048) # Initilize the music
     screen = pygame.display.set_mode(DISPLAY, FLAGS, DEPTH) # Set the screen information
     screen_rect = screen.get_rect()
@@ -62,24 +62,10 @@ def main():
 
     up = left = right = running = False # Set all key strokes (directions) to False
 
-    # Load in the first level by assigning sprites into groups and into the platforms and coin_list lists
-    # Read about what each thing does in the respective class
-    # !!! WARNING !!! The game will break if the level does not contain the player ("C") within; the game may break if the door Top and Bottom is not found as well.
-    """KEY FOR LEVELS
-        P = Platform
-        C = player starting position
-        A = Spike (Up) - 1
-        V = Spike (Down) - 2
-        > = Spike (Right) - 3
-        < = Spike (Left) - 4
-        K = Key
-        X = Trophy
-        T = Door Top
-        B = Door Bottom"""
-
+    # Load in the first level by assigning sprites into groups and into the platforms
     levelLoader.buildLevel()
     try:
-        theme = (Themes(current_level))
+        theme = (Themes(levelLoader.getLevel()))
         pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.set_volume(volume)
     except:
@@ -94,7 +80,7 @@ def main():
         
     # The main loop of the game which runs it until we're done.    
     while 1:
-        pygame.display.set_caption("Master of Thieves | Level: " +str(current_level) + " | Deaths (level): " + str(deaths) + " | Deaths (Total): " + str(deaths_total) + " | FPS: " + str(int(timer.get_fps())))
+        pygame.display.set_caption("Master of Thieves | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(deaths) + " | Deaths (Total): " + str(deaths_total) + " | FPS: " + str(int(timer.get_fps())))
         asize = ((screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
         bg = pygame.Surface(asize)
 
@@ -135,9 +121,6 @@ def main():
             if e.type == KEYDOWN and e.key == K_d:
                 levelLoader.getPlayer().direction = 'right'
                 right = True
-            if e.type == KEYDOWN and e.key == K_y:
-                print levelLoader.getPlayer().getDeathTotal()
-                print levelLoader.getPlayer().getLevelDeaths()
             if e.type == KEYDOWN and e.key == K_RETURN:
                 levelLoader.getPlayer().dead = True
             if e.type == KEYDOWN and e.key == K_LSHIFT:
@@ -191,7 +174,30 @@ def main():
         # If the player manages to reach the trophy, reset the level deaths, add one to the current_level, kill the theme (music), add the loading bar, print out loading level
         #       kill all key-presses (directions) empty all sprites and lists and load in the next level
 
-        # INSERT RELOAD THANKS TO TROPHY HERE
+        if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
+            levelLoader.addLevel()
+            print levelLoader.getLevel()
+            deaths = 0
+            levelLoader.getPlayer().onGround = True
+            levelLoader.rebuildDoors()
+            up = False
+            right = False
+            left = False
+            levelLoader.getPlayer().resetCoins()
+            levelLoader.clearScreen()
+            pygame.display.update()
+            levelLoader.rebuildObjects()
+            pause.sleep(1)
+            levelLoader.buildLevel()
+            levelLoader.entities.add(levelLoader.getPlayer()) # Finally, add player to entities so it appears
+            try:
+                theme = (Themes(levelLoader.getLevel()))
+                pygame.mixer.music.play(-1, 0.0)
+                pygame.mixer.music.set_volume(volume)
+            except:
+                theme = (Themes(0))
+                pygame.mixer.music.play(-1, 0.0)
+                pygame.mixer.music.set_volume(volume)
 
         # Player collision with spike; if true, kill the player
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
@@ -209,7 +215,7 @@ def main():
             levelLoader.getPlayer().resetCoins()
             levelLoader.clearScreen()
             pygame.display.update()
-            levelLoader.rebuildObjects(current_level)
+            levelLoader.rebuildObjects()
             pause.sleep(1)
             levelLoader.buildLevel()
             levelLoader.entities.add(levelLoader.getPlayer()) # Finally, add player to entities so it appears

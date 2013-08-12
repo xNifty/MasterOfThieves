@@ -1,3 +1,6 @@
+# Read about what each thing does in the respective class
+# !!! WARNING !!! The game will break if the level does not contain the player ("C") within; the game may break if the door Top and Bottom is not found as well.
+
 import pygame
 from pygame.locals import *
 
@@ -12,8 +15,8 @@ from trophies import Trophy
 from themes import Themes
 
 class levelLoader(object):
-	def __init__(self, level):
-		self.level = level
+	def __init__(self):
+		self.level = 20
 		self.platforms = []
 
 		self.doorsClosed = True
@@ -25,7 +28,24 @@ class levelLoader(object):
 		self.x = 0
 		self.y = 0
 	def buildLevel(self):
-		level = open('levels/level' + str(self.level) + '.txt', 'r')
+		"""
+		KEY FOR LEVELS
+        P = Platform
+        C = player starting position
+        A = Spike (Up) - 1
+        V = Spike (Down) - 2
+        > = Spike (Right) - 3
+        < = Spike (Left) - 4
+        K = Key
+        X = Trophy
+        T = Door Top
+        B = Door Bottom
+        """
+		try:
+			level = open('levels/level' + str(self.level) + '.txt', 'r')
+		except:
+			self.level = 0
+			level = open('levels/level0.txt', 'r')
 		for row in level:
 		    for col in row:
 		        if col == "P":
@@ -148,8 +168,8 @@ class levelLoader(object):
 		self.spikes.empty()
 		self.coin.empty()
 
-	def rebuildObjects(self, level):
-		self.level = level
+	def rebuildObjects(self):
+		self.level = self.level
 		self.platforms = []
 		self.doorsClosed = True
 		self.player = Player(self.charX, self.charY)
@@ -160,3 +180,9 @@ class levelLoader(object):
 		self.x = 0
 		self.y = 0
 		self.player.dead = False
+
+	def addLevel(self):
+		self.level += 1
+
+	def getLevel(self):
+		return self.level
