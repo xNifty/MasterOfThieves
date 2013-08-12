@@ -18,6 +18,12 @@ Known issues include:
 * Failing to load level / theme
 * Deaths are handled in a crappy way (globals)
 * others I cannot remember
+ 
+More Information
+-----------------
+I forgot GitHub had a wiki and I am to lazy to copy one wiki to another, so if you would like to, you can find the wiki
+for the project here: http://wepcgame.com/wiki/doku.php?id=games:master-of-thieves
+
 
 Important
 ----------
