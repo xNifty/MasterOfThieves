@@ -9,7 +9,7 @@ document at a later time, which contains everything you would need concerning al
 Currently
 ---------
 * Currently am fixing up level loading and music / themes depending on instance.
-* attempting to move completely away from global variables
+* looking for way to move key handling to a different class and out of the game class; probably move to player class
 
 Issues
 ------
