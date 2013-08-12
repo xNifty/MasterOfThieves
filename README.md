@@ -8,13 +8,15 @@ document at a later time, which contains everything you would need concerning al
 
 Currently
 ---------
-Currently am fixing up level loading and music / themes depending on instance.
+* Currently am fixing up level loading and music / themes depending on instance.
+* attempting to move completely away from global variables
 
 Issues
 ------
 Known issues include:
 * Music not playing
 * Failing to load level / theme
+* Deaths are handled in a crappy way (globals)
 * others I cannot remember
 
 Important
