@@ -17,6 +17,7 @@ Known issues include:
 * Music not playing
 * Failing to load level / theme
 * Deaths are handled in a crappy way (globals)
+* Level sometimes flashes on 4th coin collection (opening of door)
 * others I cannot remember
  
 More Information
