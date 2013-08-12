@@ -17,6 +17,7 @@ from spike import Spike
 from sounds import Sounds
 from trophies import Trophy
 from themes import Themes
+from deaths import Deaths
 from levelLoader import levelLoader
 
 from camera import *
@@ -38,6 +39,7 @@ pygame.mixer.pre_init(44100, -16, 2, 2048)
 sounds = Sounds()
 
 levelLoader = levelLoader()
+Deaths = Deaths()
 
 def main():
     """The main loop of the game.  It handles loading the levels, key strokes, playing music and sounds; relies heavily on multiple other classes to function correctly.
@@ -80,7 +82,7 @@ def main():
         
     # The main loop of the game which runs it until we're done.    
     while 1:
-        pygame.display.set_caption("Master of Thieves | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(deaths) + " | Deaths (Total): " + str(deaths_total) + " | FPS: " + str(int(timer.get_fps())))
+        pygame.display.set_caption("Master of Thieves | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(Deaths.getLevelDeaths()) + " | Deaths (Total): " + str(Deaths.getDeathsTotal()) + " | FPS: " + str(int(timer.get_fps())))
         asize = ((screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
         bg = pygame.Surface(asize)
 
@@ -177,7 +179,10 @@ def main():
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             levelLoader.addLevel()
             print levelLoader.getLevel()
-            deaths = 0
+            loading = font.render("Loading level: " + str(levelLoader.getLevel()), True, (255,255,255))
+            screen.blit(loading_bar, (0,0))
+            screen.blit(loading, (0,0))
+            Deaths.resetLevelDeaths()
             levelLoader.getPlayer().onGround = True
             levelLoader.rebuildDoors()
             up = False
@@ -187,7 +192,7 @@ def main():
             levelLoader.clearScreen()
             pygame.display.update()
             levelLoader.rebuildObjects()
-            pause.sleep(1)
+            pause.sleep(5)
             levelLoader.buildLevel()
             levelLoader.entities.add(levelLoader.getPlayer()) # Finally, add player to entities so it appears
             try:
@@ -210,8 +215,7 @@ def main():
             up = False
             right = False
             left = False
-            deaths += 1
-            deaths_total += 1
+            Deaths.addDeaths()
             levelLoader.getPlayer().resetCoins()
             levelLoader.clearScreen()
             pygame.display.update()

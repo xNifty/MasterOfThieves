@@ -13,6 +13,8 @@ class Player(Entity):
         self.onGround = True
         self.canDie = True
         self.coin_count = 0
+        self.deaths = 0
+        self.levelDeaths = 0
         self.image = pygame.transform.scale(pygame.image.load("images/Thief.png"), (40, 40))
         self.image.convert_alpha()
         self.mask = pygame.mask.from_surface(self.image)

@@ -15,6 +15,11 @@ from trophies import Trophy
 from themes import Themes
 
 class levelLoader(object):
+	""" 
+	This class actually handles a lot of things; while also handling the level loading, it also must be used to call from another class in the game
+	class itself.  For example, to use anything from the Player class, the user must have levelLoader.getPlayer().functionHere.
+	In all honesty, this class handles pretty much everything that has anything to do with levels.
+	"""
 	def __init__(self):
 		self.level = 20
 		self.platforms = []
