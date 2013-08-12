@@ -13,6 +13,9 @@ from spike import Spike
 from sounds import Sounds
 from trophies import Trophy
 from themes import Themes
+from display import Display
+
+Display = Display()
 
 class levelLoader(object):
 	""" 
@@ -32,6 +35,9 @@ class levelLoader(object):
 		self.trophies = pygame.sprite.Group()
 		self.x = 0
 		self.y = 0
+
+		self.loadingBar = pygame.transform.scale(pygame.image.load("images/button.png"), (Display.getWinWidth(), 35))
+
 	def buildLevel(self):
 		"""
 		KEY FOR LEVELS
@@ -191,3 +197,6 @@ class levelLoader(object):
 
 	def getLevel(self):
 		return self.level
+
+	def loadingBar(self):
+		return self.loadingBar

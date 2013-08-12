@@ -1,15 +1,8 @@
 import pygame
 from pygame.locals import *
+from display import Display
 
-WIN_WIDTH = 800
-WIN_HEIGHT = 500
-HALF_WIDTH = int(WIN_WIDTH / 2)
-HALF_HEIGHT = int(WIN_HEIGHT / 2)
-
-DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
-DEPTH = 32
-FLAGS = 0
-CAMERA_SLACK = 30
+Display = Display()
 
 class Camera(object):
     def __init__(self, camera_func, width, height):
@@ -26,7 +19,7 @@ class Camera(object):
 def complex_camera(camera, target_rect):
     l, t, _, _ = target_rect
     _, _, w, h = camera
-    l, t, _, _ = -l+HALF_WIDTH, -t+HALF_HEIGHT, w, h
+    l, t, _, _ = -l+Display.getHalfWidth(), -t+Display.getHalfHeight(), w, h
 
     #l = min(0, l)                           # stop scrolling at the left edge
     #l = max(-(camera.width-WIN_WIDTH), l)   # stop scrolling at the right edge
