@@ -18,8 +18,6 @@ class Display(object):
 		self.FLAGS = 0
 		self.CAMERA_SLACK = 30
 
-		self.show_debug = False
-
 		self.screen = pygame.display.set_mode(self.DISPLAY, self.FLAGS, self.DEPTH)
 		self.screen_rect = self.screen.get_rect()
 
@@ -45,6 +43,3 @@ class Display(object):
 
 	def getFlags(self):
 		return self.FLAGS
-
-	def debugStatus(self):
-		return self.show_debug

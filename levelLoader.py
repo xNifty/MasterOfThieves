@@ -36,6 +36,8 @@ class levelLoader(object):
 		self.x = 0
 		self.y = 0
 
+		self.show_debug = False
+
 		self.loadingBar = pygame.transform.scale(pygame.image.load("images/button.png"), (Display.getWinWidth(), 35))
 
 	def buildLevel(self):

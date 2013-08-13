@@ -29,13 +29,9 @@ def main():
     pygame.mixer.pre_init(44100, -16, 2, 2048)
     timer = pygame.time.Clock()
 
-    #show_debug = False
-
     pygame.mouse.set_visible(False)
 
     sounds = Sounds()
-
-    font = pygame.font.SysFont("arial", 25)
 
     levelLoader.buildLevel()
     try:
@@ -75,7 +71,7 @@ def main():
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             levelLoader.addLevel()
             print "Level loaded: " + str(levelLoader.getLevel())
-            loading = font.render("Loading level: " + str(levelLoader.getLevel()), True, (255,255,255))
+            loading = Display.font.render("Loading level: " + str(levelLoader.getLevel()), True, (255,255,255))
             Display.screen.blit(levelLoader.loadingBar, (0,0))
             Display.screen.blit(loading, (10,0))
             Deaths.resetLevelDeaths()
@@ -120,24 +116,12 @@ def main():
             for x in xrange(2):
                 levelLoader.delPlatforms()
             levelLoader.delDoors()
-            #pygame.display.update()
 
         camera.update(levelLoader.getPlayer())
 
         levelLoader.getPlayer().update(levelLoader.getPlayer().up, levelLoader.getPlayer().left, levelLoader.getPlayer().right, levelLoader.getPlatforms())
         for e in levelLoader.getEntities():
             Display.screen.blit(e.image, camera.apply(e))
-
-        if Display.show_debug == True:
-            print "DISPLAYING"
-            debug = Display.font.render("Information Window", True, (255,255,255))
-            death_status = Display.font.render("player.canDie: " + str(levelLoader.getPlayer().canDie), True, (255,255,255))
-            door_status = Display.font.render("door_closed: " + str(levelLoader.doorStatus()), True, (255,255,255))
-            coin_debug = Display.font.render("coin_count: " + str(levelLoader.getPlayer().getCoins()), True, (255,255,255))
-            Display.screen.blit(debug, (0,0))
-            Display.screen.blit(death_status, (0,25))
-            Display.screen.blit(door_status, (0,50))
-            Display.screen.blit(coin_debug, (0,75))
 
         pygame.display.update()
    

@@ -125,15 +125,15 @@ class Player(Entity):
                 if self.canDie == False:
                     self.canDie = True
                     break
-            if e.type == KEYDOWN and e.key == K_i:
-                if Display.debugStatus() == False:
-                    Display.show_debug = True
-                    print Display.debugStatus()
-                    break
-                if Display.debugStatus() == True:
-                    Display.show_debug = False
-                    print Display.debugStatus()
-                    break
+            #if e.type == KEYDOWN and e.key == K_i:
+            #    if Display.debugStatus() == False:
+            #        Display.show_debug = True
+            #        print Display.debugStatus()
+            #        break
+            #    if Display.debugStatus() == True:
+            #        Display.show_debug = False
+            #        print Display.debugStatus()
+            #        break
             if e.type == KEYDOWN and e.key == K_c:
                 self.setCoins()
             if e.type == KEYDOWN and e.key == K_e:
