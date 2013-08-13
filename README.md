@@ -8,7 +8,7 @@ document at a later time, which contains everything you would need concerning al
 
 Currently
 ---------
-* Currently am fixing up level loading and music / themes depending on instance.
+* Attempting further cleaning of game class
 * looking for way to move key handling to a different class and out of the game class; probably move to player class
 
 Issues
@@ -16,7 +16,7 @@ Issues
 Known issues include:
 * Music not playing
 * Failing to load level / theme
-* Level sometimes flashes on 4th coin collection (opening of door)
+* Level sometimes flashes on 4th coin collection (opening of door) - Fixed?
 * others I cannot remember
  
 More Information
