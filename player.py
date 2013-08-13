@@ -21,7 +21,6 @@ class Player(Entity):
         self.up = False
         self.right = False
         self.left = False
-        self.running = False
         self.image = pygame.transform.scale(pygame.image.load("images/Thief.png"), (40, 40))
         self.image.convert_alpha()
         self.mask = pygame.mask.from_surface(self.image)
