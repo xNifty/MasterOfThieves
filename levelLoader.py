@@ -85,22 +85,10 @@ class levelLoader(object):
 		            spike = Spike(self.x, self.y, 4) # Load a spike at the x,y found 
 		            self.entities.add(spike) # Add the spike to the entities
 		            self.spikes.add(spike) # Add the spike to the spike sprite group for collison purposes
-		        if col == "1":
-		            c1 = Coins(self.x, self.y) # Load a coin image at the given x,y
-		            self.entities.add(c1) # Coin 1 to the entities
-		            self.coin.add(c1) # add coin 1 to the coinA sprite group
-		        if col == "2":
-		            c2 = Coins(self.x, self.y) # Load a coin image at the given x,y
-		            self.entities.add(c2) # Coin 2 to the entities
-		            self.coin.add(c2) # add coin 2 to the coinB sprite group
-		        if col == "3":
-		            c3 = Coins(self.x, self.y) # Load a coin image at the given x,y
-		            self.entities.add(c3) # Coin 3 to the entities
-		            self.coin.add(c3) # add coin 3 to the coinC sprite group
-		        if col == "4":
-		            c4 = Coins(self.x, self.y) # Load a coin image at the given x,y
-		            self.entities.add(c4) # Coin 4 to the entities
-		            self.coin.add(c4) # add coin 4 to the coinD sprite group
+		        if col == "O":
+		            coin = Coins(self.x, self.y) # Load a coin image at the given x,y
+		            self.entities.add(coin) # Coin 1 to the entities
+		            self.coin.add(coin) # add coin 1 to the coinA sprite group
 		        if col == "X":
 		            win_object = Trophy(self.x, self.y, self.level) # Load the proper trophy by passing the level to the trophy class and load at the given x,y from file loading
 		            self.entities.add(win_object) # Add the trophy to the entities so it appears

@@ -46,13 +46,15 @@ def main():
 
     levelLoader.buildLevel()
     try:
-        theme = (Themes(levelLoader.getLevel()))
-        pygame.mixer.music.play(-1, 0.0)
-        pygame.mixer.music.set_volume(sounds.getVolume())
+        if sounds.mute == False:
+            theme = (Themes(levelLoader.getLevel()))
+            pygame.mixer.music.play(-1, 0.0)
+            pygame.mixer.music.set_volume(sounds.getVolume())
     except:
-        theme = (Themes(0))
-        pygame.mixer.music.play(-1, 0.0)
-        pygame.mixer.music.set_volume(sounds.getVolume())
+        if sounds.mute == False:
+            theme = (Themes(0))
+            pygame.mixer.music.play(-1, 0.0)
+            pygame.mixer.music.set_volume(sounds.getVolume())
 
     total_level_width  = len('level'[0])*32
     total_level_height = len('level')*32
@@ -166,13 +168,15 @@ def main():
             levelLoader.buildLevel()
             levelLoader.entities.add(levelLoader.getPlayer())
             try:
-                theme = (Themes(levelLoader.getLevel()))
-                pygame.mixer.music.play(-1, 0.0)
-                pygame.mixer.music.set_volume(sounds.getVolume())
+                if sounds.mute == False:
+                    theme = (Themes(levelLoader.getLevel()))
+                    pygame.mixer.music.play(-1, 0.0)
+                    pygame.mixer.music.set_volume(sounds.getVolume())
             except:
-                theme = (Themes(0))
-                pygame.mixer.music.play(-1, 0.0)
-                pygame.mixer.music.set_volume(sounds.getVolume())
+                if sounds.mute == False:
+                    theme = (Themes(0))
+                    pygame.mixer.music.play(-1, 0.0)
+                    pygame.mixer.music.set_volume(sounds.getVolume())
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
             levelLoader.getPlayer().dead = True
