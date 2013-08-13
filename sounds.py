@@ -9,7 +9,7 @@ class Sounds():
 		self.death_sound = pygame.mixer.Sound('sounds/game/death.wav')
 		self.door = pygame.mixer.Sound('sounds/game/door.wav')
 		self.volume = 0.2
-		self.mute = True
+		self.mute = False
 
 	def getVolume(self):
 		return self.volume

@@ -74,7 +74,6 @@ class Player(Entity):
         """Handles collisions with platforms."""
         for p in platforms:
             if self.rect.colliderect(p):
-            #if pygame.sprite.collide_mask(self, p):
                 if xvel > 0:
                     self.rect.right = p.rect.left
                 if xvel < 0:
@@ -125,15 +124,6 @@ class Player(Entity):
                 if self.canDie == False:
                     self.canDie = True
                     break
-            #if e.type == KEYDOWN and e.key == K_i:
-            #    if Display.debugStatus() == False:
-            #        Display.show_debug = True
-            #        print Display.debugStatus()
-            #        break
-            #    if Display.debugStatus() == True:
-            #        Display.show_debug = False
-            #        print Display.debugStatus()
-            #        break
             if e.type == KEYDOWN and e.key == K_c:
                 self.setCoins()
             if e.type == KEYDOWN and e.key == K_e:
