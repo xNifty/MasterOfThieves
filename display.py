@@ -1,8 +1,13 @@
 import pygame
 from pygame.locals import *
+import os
+
+pygame.init()
 
 class Display(object):
 	def __init__(self):
+		os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 		self.WIN_WIDTH = 800
 		self.WIN_HEIGHT = 500
 		self.HALF_WIDTH = int(self.WIN_WIDTH / 2)
@@ -12,6 +17,13 @@ class Display(object):
 		self.DEPTH = 32
 		self.FLAGS = 0
 		self.CAMERA_SLACK = 30
+
+		self.show_debug = False
+
+		self.screen = pygame.display.set_mode(self.DISPLAY, self.FLAGS, self.DEPTH)
+		self.screen_rect = self.screen.get_rect()
+
+		self.font = pygame.font.SysFont("arial", 25)
 
 	def getWinWidth(self):
 		return self.WIN_WIDTH
@@ -33,3 +45,6 @@ class Display(object):
 
 	def getFlags(self):
 		return self.FLAGS
+
+	def debugStatus(self):
+		return self.show_debug

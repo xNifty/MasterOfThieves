@@ -1,6 +1,9 @@
 import pygame
 from pygame.locals import *
 from entities import *
+from display import Display
+
+Display = Display()
 
 class Player(Entity):
     def __init__(self, x, y):
@@ -15,10 +18,15 @@ class Player(Entity):
         self.coin_count = 0
         self.deaths = 0
         self.levelDeaths = 0
+        self.up = False
+        self.right = False
+        self.left = False
+        self.running = False
         self.image = pygame.transform.scale(pygame.image.load("images/Thief.png"), (40, 40))
         self.image.convert_alpha()
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = Rect(x, y, 32, 40)
+
 
     def update(self, up, left, right, platforms):
         """Handle the directions of the character and change the image based on left or right."""
@@ -78,6 +86,80 @@ class Player(Entity):
                 if yvel < 0:
                     self.rect.top = p.rect.bottom
                     self.yvel = 0
+
+    def playerMovement(self):
+        for e in pygame.event.get():
+            if e.type == QUIT: 
+                exit()
+            if e.type == KEYDOWN and e.key == K_ESCAPE:
+                exit()
+            if e.type == KEYDOWN and e.key == K_SPACE:
+                self.onGround = False
+                self.up = True
+            if e.type == KEYDOWN and e.key == K_UP:
+                self.onGround = False
+                self.up = True
+            if e.type == KEYDOWN and e.key == K_LEFT:
+                self.direction = 'left'
+                self.left = True
+            if e.type == KEYDOWN and e.key == K_RIGHT:
+                self.direction = 'right'
+                self.right = True
+            if e.type == KEYDOWN and e.key == K_ESCAPE:
+                exit()
+            if e.type == KEYDOWN and e.key == K_w:
+                self.onGround = False
+                self.up = True
+            if e.type == KEYDOWN and e.key == K_a:
+                self.direction = 'left'
+                self.left = True
+            if e.type == KEYDOWN and e.key == K_d:
+                self.direction = 'right'
+                self.right = True
+            if e.type == KEYDOWN and e.key == K_RETURN:
+                self.dead = True
+            if e.type == KEYDOWN and e.key == K_LSHIFT:
+                if self.canDie == True:
+                    self.canDie = False
+                    break
+                if self.canDie == False:
+                    self.canDie = True
+                    break
+            if e.type == KEYDOWN and e.key == K_i:
+                if Display.debugStatus() == False:
+                    Display.show_debug = True
+                    print Display.debugStatus()
+                    break
+                if Display.debugStatus() == True:
+                    Display.show_debug = False
+                    print Display.debugStatus()
+                    break
+            if e.type == KEYDOWN and e.key == K_c:
+                self.setCoins()
+            if e.type == KEYDOWN and e.key == K_e:
+                self.yvel -= 20
+
+            if e.type == KEYUP and e.key == K_SPACE:
+                self.onGround = True
+                self.up = False
+            if e.type == KEYUP and e.key == K_UP:
+                self.onGround = True
+                self.up = False
+            if e.type == KEYUP and e.key == K_RIGHT:
+                self.direction = 'right'
+                self.right = False
+            if e.type == KEYUP and e.key == K_LEFT:
+                self.direction = 'left'
+                self.left = False
+            if e.type == KEYUP and e.key == K_w:
+                self.onGround = True
+                self.up = False
+            if e.type == KEYUP and e.key == K_d:
+                self.direction = 'right'
+                self.right = False
+            if e.type == KEYUP and e.key == K_a:
+                self.direction = 'left'
+                self.left = False
 
     def getStatus(self):
         return self.dead

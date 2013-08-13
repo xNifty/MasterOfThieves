@@ -179,6 +179,10 @@ class levelLoader(object):
 		self.x = 0
 		self.y = 0
 		self.player.dead = False
+		self.player.up = False
+		self.player.right = False
+		self.player.left = False
+		self.player.running = False
 
 	def addLevel(self):
 		self.level += 1
