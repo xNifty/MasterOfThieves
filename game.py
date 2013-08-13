@@ -61,7 +61,7 @@ def main():
 
         timer.tick(38)
 
-        levelLoader.getPlayer().playerMovement()
+        levelLoader.getPlayer().getKeyPress()
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
             sounds.coin_sound.play()

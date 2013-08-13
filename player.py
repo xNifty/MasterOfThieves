@@ -86,7 +86,7 @@ class Player(Entity):
                     self.rect.top = p.rect.bottom
                     self.yvel = 0
 
-    def playerMovement(self):
+    def getKeyPress(self):
         for e in pygame.event.get():
             if e.type == QUIT: 
                 exit()
