@@ -125,6 +125,7 @@ class Player(Entity):
                     break
             if e.type == KEYDOWN and e.key == K_c:
                 self.setCoins()
+                print self.coin_count
             if e.type == KEYDOWN and e.key == K_e:
                 self.yvel -= 20
 
@@ -157,7 +158,7 @@ class Player(Entity):
         return self.coin_count
 
     def setCoins(self):
-        self.coin_count = 4
+        self.coin_count += 4
 
     def addCoin(self):
         self.coin_count += 1

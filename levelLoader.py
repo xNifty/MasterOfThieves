@@ -41,7 +41,6 @@ class levelLoader(object):
 
 		self.loadingBar = pygame.transform.scale(pygame.image.load("images/button.png"), (Display.getWinWidth(), 35))
 
-		self.coinVar = r'(\d{0,1})'
 		self.levelCoins = 0
 
 	def buildLevel(self):
@@ -66,10 +65,15 @@ class levelLoader(object):
 			level = open('levels/level0.txt', 'r')
 		for row in level:
 		    for col in row:
-		    	if col == "1" or col == "2" or col == "3" or col == "4" or col == "5" or col == "6" or col == "7" or col == "8" or col == "9":
-		    		print "found"
-		    		self.levelCoins = int(col)
-		    		print self.levelCoins
+		    	if col.isdigit():
+		    		if int(col) > 0:
+		    			print "found number: " + str(col)
+		    			self.levelCoins = int(col)
+		    			print self.levelCoins
+		    		else:
+		    			print "got no coin amount...assuming a set of 1"
+		    			self.levelCoins = 1
+		    			print self.levelCoins
 		        if col == "P":
 		            p = Platform(self.x, self.y) # Place a platform at the given x,y
 		            self.platforms.insert(0, p) # Insert it into the platforms list
