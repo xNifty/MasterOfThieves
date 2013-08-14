@@ -14,10 +14,7 @@ Currently
 Issues
 ------
 Known issues include:
-* Music not playing
-* Failing to load level / theme
-* Level sometimes flashes on 4th coin collection (opening of door) - Fixed?
-* others I cannot remember
+* n/a at the moment
  
 More Information
 -----------------
