@@ -9,12 +9,11 @@ document at a later time, which contains everything you would need concerning al
 Currently
 ---------
 * Attempting further cleaning of game class
-* looking for way to move key handling to a different class and out of the game class; probably move to player class
 
 Issues
 ------
 Known issues include:
-* n/a at the moment
+* multiple digits will keep setting the coin count until the final digit is found
  
 More Information
 -----------------
