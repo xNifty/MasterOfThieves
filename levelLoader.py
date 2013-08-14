@@ -3,6 +3,7 @@
 
 import pygame
 from pygame.locals import *
+import re
 
 from entities import Entity
 from player import Player
@@ -40,6 +41,9 @@ class levelLoader(object):
 
 		self.loadingBar = pygame.transform.scale(pygame.image.load("images/button.png"), (Display.getWinWidth(), 35))
 
+		self.coinVar = r'(\d{0,1})'
+		self.levelCoins = 0
+
 	def buildLevel(self):
 		"""
 		KEY FOR LEVELS
@@ -53,6 +57,7 @@ class levelLoader(object):
         X = Trophy
         T = Door Top
         B = Door Bottom
+        O = Coin
         """
 		try:
 			level = open('levels/level' + str(self.level) + '.txt', 'r')
@@ -61,6 +66,10 @@ class levelLoader(object):
 			level = open('levels/level0.txt', 'r')
 		for row in level:
 		    for col in row:
+		    	if col == "1" or col == "2" or col == "3" or col == "4" or col == "5" or col == "6" or col == "7" or col == "8" or col == "9":
+		    		print "found"
+		    		self.levelCoins = int(col)
+		    		print self.levelCoins
 		        if col == "P":
 		            p = Platform(self.x, self.y) # Place a platform at the given x,y
 		            self.platforms.insert(0, p) # Insert it into the platforms list
@@ -194,3 +203,6 @@ class levelLoader(object):
 
 	def loadingBar(self):
 		return self.loadingBar
+
+	def getLevelCoins(self):
+		return self.levelCoins

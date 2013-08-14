@@ -70,7 +70,6 @@ def main():
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             levelLoader.addLevel()
-            print "Level loaded: " + str(levelLoader.getLevel())
             loading = Display.font.render("Loading level: " + str(levelLoader.getLevel()), True, (255,255,255))
             Display.screen.blit(levelLoader.loadingBar, (0,0))
             Display.screen.blit(loading, (10,0))
@@ -83,6 +82,7 @@ def main():
             levelLoader.rebuildObjects()
             pause.sleep(5)
             levelLoader.buildLevel()
+            print "Loaded level: " + str(levelLoader.getLevel())
             levelLoader.entities.add(levelLoader.getPlayer())
             try:
                 if sounds.mute == False:
@@ -110,7 +110,7 @@ def main():
             levelLoader.buildLevel()
             levelLoader.entities.add(levelLoader.getPlayer())
 
-        if levelLoader.getPlayer().getCoins() >= 4 and levelLoader.doorStatus() == True:
+        if levelLoader.getPlayer().getCoins() >= levelLoader.getLevelCoins() and levelLoader.doorStatus() == True:
             sounds.door.play()
             sounds.door.set_volume(sounds.getVolume())
             for x in xrange(2):
