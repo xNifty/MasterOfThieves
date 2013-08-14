@@ -37,11 +37,8 @@ class levelLoader(object):
 		self.x = 0
 		self.y = 0
 
-		self.show_debug = False
-
-		self.loadingBar = pygame.transform.scale(pygame.image.load("images/button.png"), (Display.getWinWidth(), 35))
-
 		self.levelCoins = 0
+		self.loadedCoins = False
 
 	def buildLevel(self):
 		"""
@@ -65,12 +62,14 @@ class levelLoader(object):
 			level = open('levels/level0.txt', 'r')
 		for row in level:
 		    for col in row:
-		    	if col.isdigit():
+		    	if col.isdigit() and self.loadedCoins == False:
 		    		if int(col) > 0:
+		    			self.loadedCoins = True
 		    			print "found number: " + str(col)
 		    			self.levelCoins = int(col)
 		    			print self.levelCoins
 		    		else:
+		    			self.loadedCoins = True
 		    			print "got no coin amount...assuming a set of 1"
 		    			self.levelCoins = 1
 		    			print self.levelCoins
@@ -105,9 +104,14 @@ class levelLoader(object):
 		            self.entities.add(coin) # Coin 1 to the entities
 		            self.coin.add(coin) # add coin 1 to the coinA sprite group
 		        if col == "X":
-		            win_object = Trophy(self.x, self.y, self.level) # Load the proper trophy by passing the level to the trophy class and load at the given x,y from file loading
-		            self.entities.add(win_object) # Add the trophy to the entities so it appears
-		            self.trophies.add(win_object) # Also make it a trophy sprite for collision detection purposes
+					try:
+						win_object = Trophy(self.x, self.y, self.level) # Load the proper trophy by passing the level to the trophy class and load at the given x,y from file loading
+						self.entities.add(win_object) # Add the trophy to the entities so it appears
+						self.trophies.add(win_object) # Also make it a trophy sprite for collision detection purposes
+					except:
+						win_object = Trophy(self.x, self.y, 0)
+						self.entities.add(win_object) # Add the trophy to the entities so it appears
+						self.trophies.add(win_object) # Also make it a trophy sprite for collision detection purposes
 		        if col == "T":
 		            self.doorA = Door(self.x, self.y)
 		            self.platforms.append(self.doorA) # Make the door top a platform so the player cannot walk through it
@@ -173,6 +177,7 @@ class levelLoader(object):
 		self.player.onGround = True
 		self.x = 0
 		self.y = 0
+		self.loadedCoins = False
 		level = self.level
 		self.platforms = None
 		self.doorA.kill()

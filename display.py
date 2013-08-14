@@ -23,6 +23,8 @@ class Display(object):
 
 		self.font = pygame.font.SysFont("arial", 25)
 
+		self.loadingBar = pygame.transform.scale(pygame.image.load("images/button.png"), (self.WIN_WIDTH, 35))
+
 	def getWinWidth(self):
 		return self.WIN_WIDTH
 

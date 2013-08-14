@@ -71,7 +71,7 @@ def main():
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             levelLoader.addLevel()
             loading = Display.font.render("Loading level: " + str(levelLoader.getLevel()), True, (255,255,255))
-            Display.screen.blit(levelLoader.loadingBar, (0,0))
+            Display.screen.blit(Display.loadingBar, (0,0))
             Display.screen.blit(loading, (10,0))
             Deaths.resetLevelDeaths()
             levelLoader.getPlayer().onGround = True

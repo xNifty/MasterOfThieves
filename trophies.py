@@ -9,7 +9,6 @@ class Trophy(Entity):
         Entity.__init__(self)
         self.level = level
         trophy = pygame.transform.scale(pygame.image.load("images/trophies/trophy" + str(self.level) + ".png"), (32, 32))
-        #image = "images/trophies/trophy"
         self.image = trophy.convert_alpha()
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = Rect(x, y, 32, 32)
