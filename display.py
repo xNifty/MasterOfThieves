@@ -47,9 +47,9 @@ class Display(object):
 		return self.FLAGS
 
 	def gameOver(self):
-		self.gameOver = self.font.render("GAME OVER", True, (255,255,255))
+		self.wonGame = self.font.render("You beat Master of Thieves!", True, (255,255,255))
 		self.screen.blit(self.loadingBar, (0,0))
-		self.screen.blit(self.gameOver, (10,2))
+		self.screen.blit(self.wonGame, (10,2))
 
 	def loadingLevel(self, level):
 		self.level = level
@@ -58,7 +58,6 @@ class Display(object):
 		self.screen.blit(self.loading, (10,2))
 
 	def titleScreen(self):
-		pygame.display.update()
 		pygame.display.set_caption("Master of Thieves") # Window caption
 		self.background_image = pygame.transform.scale(pygame.image.load("images/intro/title_bg.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Load the title background
 
@@ -79,6 +78,11 @@ class Display(object):
 
 		# We want the cursor on the main menu and tutorial screen.
 		pygame.mouse.set_visible(True)
+		pygame.display.update()
+
+	def reloadTitleScreen(self):
+		self.title = True
+		self.titleScreen()
 		pygame.display.update()
 
 	def tutorial(self):

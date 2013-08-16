@@ -95,10 +95,16 @@ def main():
                         pygame.mixer.music.play(-1, 0.0)
                         pygame.mixer.music.set_volume(sounds.getVolume())
             except:
+                print "Exception found; attempting reload of main menu"
                 Display.gameOver()
+                print "Game Over blit"
                 pygame.display.update()
                 pause.sleep(5)
-                raise SystemExit("Game Over")
+                Display.reloadTitleScreen()
+                levelLoader.resetLevel()
+                print Display.title
+                print "main menu loaded"
+                break
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
             levelLoader.getPlayer().dead = True

@@ -63,12 +63,10 @@ class levelLoader(object):
 		    			self.loadedCoins = True
 		    			print "found number: " + str(col)
 		    			self.levelCoins = int(col)
-		    			print self.levelCoins
 		    		else:
 		    			self.loadedCoins = True
 		    			print "got no coin amount...assuming a set of 1"
 		    			self.levelCoins = 1
-		    			print self.levelCoins
 		        if col == "P":
 		            p = Platform(self.x, self.y) # Place a platform at the given x,y
 		            self.platforms.insert(0, p) # Insert it into the platforms list
@@ -200,6 +198,9 @@ class levelLoader(object):
 
 	def addLevel(self):
 		self.level += 1
+
+	def resetLevel(self):
+		self.level = 0
 
 	def getLevel(self):
 		return self.level
