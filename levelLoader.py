@@ -25,7 +25,7 @@ class levelLoader(object):
 	In all honesty, this class handles pretty much everything that has anything to do with levels.
 	"""
 	def __init__(self):
-		self.level = 0
+		self.level = 1
 		self.platforms = []
 
 		self.doorsClosed = True
@@ -55,11 +55,7 @@ class levelLoader(object):
         B = Door Bottom
         O = Coin
         """
-		try:
-			level = open('levels/level' + str(self.level) + '.txt', 'r')
-		except:
-			self.level = 0
-			level = open('levels/level0.txt', 'r')
+		level = open('levels/level' + str(self.level) + '.txt', 'r')
 		for row in level:
 		    for col in row:
 		    	if col.isdigit() and self.loadedCoins == False:
