@@ -2,8 +2,10 @@ import pygame
 from pygame.locals import *
 from entities import *
 from display import Display
+from sounds import Sounds
 
 Display = Display()
+sounds = Sounds()
 
 class Player(Entity):
     def __init__(self, x, y):

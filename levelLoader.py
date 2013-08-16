@@ -25,7 +25,7 @@ class levelLoader(object):
 	In all honesty, this class handles pretty much everything that has anything to do with levels.
 	"""
 	def __init__(self):
-		self.level = 20
+		self.level = 0
 		self.platforms = []
 
 		self.doorsClosed = True
@@ -78,11 +78,9 @@ class levelLoader(object):
 		            self.platforms.insert(0, p) # Insert it into the platforms list
 		            self.entities.add(p) # Add to entities so it appears on screen
 		        if col == "C":
-					#print "Character found!"
 					self.charX = self.x # The character x found from file loading
 					self.charY = self.y # The character y found from file loading
 					self.player = Player(self.charX, self.charY) # Set the player along with the x,y of the starting position
-					#print "yes, player!"
 		        if col == "A":
 		            spike = Spike(self.x, self.y, 1) # Load a spike at the x,y found 
 		            self.entities.add(spike) # Add the spike to the entities
