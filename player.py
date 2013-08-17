@@ -127,7 +127,7 @@ class Player(Entity):
                     break
             if e.type == KEYDOWN and e.key == K_c:
                 self.setCoins()
-                print self.coin_count
+                print "new coin count: " + str(self.coin_count)
             if e.type == KEYDOWN and e.key == K_e:
                 self.yvel -= 20
 

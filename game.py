@@ -3,6 +3,8 @@
 import pygame
 import time as pause
 from pygame import *
+import cgitb
+import os
 from sys import exit
 
 from entities import Entity
@@ -24,6 +26,8 @@ pygame.init()
 sounds = Sounds()
 levelLoader = levelLoader()
 Deaths = Deaths()
+
+cgitb.enable(logdir='errors', display=False, format='text')
 
 def main():
     pygame.mixer.pre_init(44100, -16, 2, 2048)
@@ -55,6 +59,7 @@ def main():
             " | FPS: " + str(int(timer.get_fps())))
         asize = ((Display.screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (Display.screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
         bg = pygame.Surface(asize)
+        Display.penis()
 
         for x in range(0, asize[0], levelLoader.getBGWidth()):
             for y in range(0, asize[1], levelLoader.getBGHeight()):
@@ -136,7 +141,7 @@ def main():
             Display.screen.blit(e.image, camera.apply(e))
 
         pygame.display.update()
-   
+       
 Display.titleScreen()
 while Display.title == True:
     for e in pygame.event.get():
