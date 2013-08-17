@@ -1,0 +1,57 @@
+<type 'exceptions.AttributeError'>
+Python 2.7.2: C:\Python27\python.exe
+Fri Aug 16 21:29:02 2013
+
+A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.
+
+ C:\Users\owner\Desktop\MoT2.0\game.py in <module>()
+  163             if Display.b1.collidepoint(pos):
+  164                 Display.title = False
+  165                 main() # Clicked to start the game
+  166             if Display.b2.collidepoint(pos):
+  167                 Display.tutstatus = True
+main = <function main>
+
+ C:\Users\owner\Desktop\MoT2.0\game.py in main()
+   60         asize = ((Display.screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (Display.screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
+   61         bg = pygame.Surface(asize)
+   62         Display.catchMyError()
+   63 
+   64         for x in range(0, asize[0], levelLoader.getBGWidth()):
+global Display = <display.Display object>
+Display.catchMyError undefined
+<type 'exceptions.AttributeError'>: 'Display' object has no attribute 'catchMyError'
+    __class__ = <type 'exceptions.AttributeError'>
+    __delattr__ = <method-wrapper '__delattr__' of exceptions.AttributeError object>
+    __dict__ = {}
+    __doc__ = 'Attribute not found.'
+    __format__ = <built-in method __format__ of exceptions.AttributeError object>
+    __getattribute__ = <method-wrapper '__getattribute__' of exceptions.AttributeError object>
+    __getitem__ = <method-wrapper '__getitem__' of exceptions.AttributeError object>
+    __getslice__ = <method-wrapper '__getslice__' of exceptions.AttributeError object>
+    __hash__ = <method-wrapper '__hash__' of exceptions.AttributeError object>
+    __init__ = <method-wrapper '__init__' of exceptions.AttributeError object>
+    __new__ = <built-in method __new__ of type object>
+    __reduce__ = <built-in method __reduce__ of exceptions.AttributeError object>
+    __reduce_ex__ = <built-in method __reduce_ex__ of exceptions.AttributeError object>
+    __repr__ = <method-wrapper '__repr__' of exceptions.AttributeError object>
+    __setattr__ = <method-wrapper '__setattr__' of exceptions.AttributeError object>
+    __setstate__ = <built-in method __setstate__ of exceptions.AttributeError object>
+    __sizeof__ = <built-in method __sizeof__ of exceptions.AttributeError object>
+    __str__ = <method-wrapper '__str__' of exceptions.AttributeError object>
+    __subclasshook__ = <built-in method __subclasshook__ of type object>
+    __unicode__ = <built-in method __unicode__ of exceptions.AttributeError object>
+    args = ("'Display' object has no attribute 'catchMyError'",)
+    message = "'Display' object has no attribute 'catchMyError'"
+
+The above is a description of an error in a Python program.  Here is
+the original traceback:
+
+Traceback (most recent call last):
+  File "game.py", line 165, in <module>
+    main() # Clicked to start the game
+  File "game.py", line 62, in main
+    Display.catchMyError()
+AttributeError: 'Display' object has no attribute 'catchMyError'
+

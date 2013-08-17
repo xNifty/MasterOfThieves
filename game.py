@@ -59,7 +59,7 @@ def main():
             " | FPS: " + str(int(timer.get_fps())))
         asize = ((Display.screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (Display.screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
         bg = pygame.Surface(asize)
-        Display.penis()
+        Display.catchMyError()
 
         for x in range(0, asize[0], levelLoader.getBGWidth()):
             for y in range(0, asize[1], levelLoader.getBGHeight()):
