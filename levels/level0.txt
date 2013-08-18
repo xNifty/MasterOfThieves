@@ -3,7 +3,9 @@ P                                 P
 P                                 P
 P                                 P
 P                                 P
-P1   2   3              4    PPPPPP
+PO   O   O              O    PPPPPP
 P                            T    P
 PC                           B   XP
 PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+
+4

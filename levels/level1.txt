@@ -1,26 +1,9 @@
-PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-P                                          P
-P                                          P
-P                                          P
-P             P       1       AA           P
-P       PP        AAAPPPPPPPPPPP           P
-P                 PPP                      P
-P    P                                     P
-P     AA                         4         P
-P    PPPPPPPP                              P
-P              P             AAA           P
-P                          PPPPPPP         P
-P                 PPP                      P
-P              AAPP                        P
-P            PPPPPP                 AAAAAAAP
-P     3  PP           AA 2 A        PPPPPPPP
-P    P                PPPPPP               P
-P     A                                    P
-P   PPPPPPPPPPP                            P
-P                   AAAAAAAAA              P
-P                 PPPPPPPPPPP              P
-P                                          P
-P    C      PPPP                           PPPPPPPP
-P    PPP                                   T      P
-P      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA      B    X P
-PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+P                                               P
+P                                  O            P
+P                          O       P            P
+P                          P      P  P        PPP
+P   O                     P             P     T P
+P C        A A            PO                  BXP
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+4

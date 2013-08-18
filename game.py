@@ -6,6 +6,7 @@ from pygame import *
 import cgitb
 import os
 from sys import exit
+import pygame._view
 
 from entities import Entity
 from player import Player
@@ -59,7 +60,6 @@ def main():
             " | FPS: " + str(int(timer.get_fps())))
         asize = ((Display.screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (Display.screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
         bg = pygame.Surface(asize)
-        Display.catchMyError()
 
         for x in range(0, asize[0], levelLoader.getBGWidth()):
             for y in range(0, asize[1], levelLoader.getBGHeight()):
@@ -70,10 +70,12 @@ def main():
         levelLoader.getPlayer().getKeyPress()
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
+            levelLoader.getPlayer().addCoin()
+            print levelLoader.getPlayer().getCoins()
             if sounds.mute == False:
                 sounds.coin_sound.play()
                 sounds.coin_sound.set_volume(sounds.getVolume())
-            levelLoader.getPlayer().addCoin()
+            levelLoader.getPlayer().canHitCoin = True
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             try:
@@ -106,6 +108,7 @@ def main():
                 pygame.display.update()
                 pause.sleep(5)
                 Display.reloadTitleScreen()
+                Deaths.resetDeathsTotal()
                 levelLoader.resetLevel()
                 print Display.title
                 print "main menu loaded"
@@ -115,6 +118,7 @@ def main():
             levelLoader.getPlayer().dead = True
 
         if levelLoader.getPlayer().dead == True:
+            levelLoader.reloading = True
             levelLoader.getPlayer().onGround = True
             levelLoader.rebuildDoors()
             Deaths.addDeaths()
@@ -147,7 +151,7 @@ while Display.title == True:
     for e in pygame.event.get():
         pos = pygame.mouse.get_pos()
         if e.type == QUIT: # "X"ed out of the game
-            raise SystemExit()
+            exit()
         if e.type == MOUSEMOTION: # If the user scrolls over one of the buttons change to the image with the red background so that the user knows they are on it
             if Display.b1.collidepoint(pos):
                 Display.screen.blit(Display.play2, (0, 100))
@@ -167,5 +171,5 @@ while Display.title == True:
                 Display.tutstatus = True
                 Display.tutorial() # Clicked to go to the tutorial screen
             if Display.b3.collidepoint(pos):
-                raise SystemExit() # Exit
+                exit()
     pygame.display.update()

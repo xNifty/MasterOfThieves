@@ -1,6 +1,9 @@
 import pygame
 from pygame.locals import *
 import os
+from sys import exit
+
+from directory import Directory
 
 pygame.init()
 
@@ -9,7 +12,7 @@ class Display(object):
 		os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 		self.WIN_WIDTH = 800
-		self.WIN_HEIGHT = 500
+		self.WIN_HEIGHT = 800
 		self.HALF_WIDTH = int(self.WIN_WIDTH / 2)
 		self.HALF_HEIGHT = int(self.WIN_HEIGHT / 2)
 
@@ -23,7 +26,7 @@ class Display(object):
 
 		self.font = pygame.font.SysFont("arial", 25)
 
-		self.loadingBar = pygame.transform.scale(pygame.image.load("images/button.png"), (self.WIN_WIDTH, 35))
+		self.loadingBar = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/button.png"), (self.WIN_WIDTH, 35))
 
 	def getWinWidth(self):
 		return self.WIN_WIDTH
@@ -59,15 +62,15 @@ class Display(object):
 
 	def titleScreen(self):
 		pygame.display.set_caption("Master of Thieves") # Window caption
-		self.background_image = pygame.transform.scale(pygame.image.load("images/intro/title_bg.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Load the title background
+		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/title_bg.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Load the title background
 
 		# All of the button images - probably should have loaded through images like the rest
-		self.play = pygame.image.load('images/intro/play.png')
-		self.play2 = pygame.image.load('images/intro/play2.png')
-		self.exit = pygame.image.load('images/intro/exit.png')
-		self.exit2 = pygame.image.load('images/intro/exit2.png')
-		self.tut = pygame.image.load('images/intro/tutorial.png')
-		self.tut2 = pygame.image.load('images/intro/tutorial2.png')
+		self.play = pygame.image.load(Directory().getDirectory() + '/images/intro/play.png')
+		self.play2 = pygame.image.load(Directory().getDirectory() + '/images/intro/play2.png')
+		self.exit = pygame.image.load(Directory().getDirectory() + '/images/intro/exit.png')
+		self.exit2 = pygame.image.load(Directory().getDirectory() + '/images/intro/exit2.png')
+		self.tut = pygame.image.load(Directory().getDirectory() + '/images/intro/tutorial.png')
+		self.tut2 = pygame.image.load(Directory().getDirectory() + '/images/intro/tutorial2.png')
 
 		# Blit the initial images to the screen; order: PLAY, TUT, EXIT
 		self.screen.blit(self.background_image, (0,0))
@@ -87,12 +90,12 @@ class Display(object):
 
 	def tutorial(self):
 		pygame.display.set_caption("Master of Thieves")
-		self.background_image = pygame.transform.scale(pygame.image.load("images/intro/tutscreen.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
+		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/tutscreen.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
 		self.screen.blit(self.background_image, (0,0))
 
 		# Menu buttons
-		self.menu = pygame.image.load('images/intro/menu.png')
-		self.menu2 = pygame.image.load('images/intro/menu2.png')
+		self.menu = pygame.image.load(Directory().getDirectory() + '/images/intro/menu.png')
+		self.menu2 = pygame.image.load(Directory().getDirectory() + '/images/intro/menu2.png')
 
 		self.m1 = self.screen.blit(self.menu, (0,0))
 		self.tutstatus = True
@@ -100,7 +103,7 @@ class Display(object):
 		    for e in pygame.event.get():
 		        self.pos = pygame.mouse.get_pos()
 		        if e.type == QUIT: # "X"ed out of the game
-		            raise SystemExit()
+		    		exit()
 		        if e.type == MOUSEMOTION:
 		            if self.m1.collidepoint(self.pos): # Scrolling over the Main Menu button, so change the image so the user knows they are on it
 		                self.screen.blit(self.menu2, (0,0))

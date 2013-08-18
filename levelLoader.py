@@ -15,8 +15,10 @@ from sounds import Sounds
 from trophies import Trophy
 from themes import Themes
 from display import Display
+from directory import Directory
 
 Display = Display()
+Directory = Directory()
 
 class levelLoader(object):
 	""" 
@@ -25,7 +27,7 @@ class levelLoader(object):
 	In all honesty, this class handles pretty much everything that has anything to do with levels.
 	"""
 	def __init__(self):
-		self.level = 1
+		self.level = 0
 		self.platforms = []
 
 		self.doorsClosed = True
@@ -40,12 +42,14 @@ class levelLoader(object):
 		self.levelCoins = 0
 		self.loadedCoins = False
 
+		self.reloading = False
+
 	def buildLevel(self):
 		"""
 		KEY FOR LEVELS
         P = Platform
         C = player starting position
-        A = Spike (Up) - 1
+        ^ = Spike (Up) - 1
         V = Spike (Down) - 2
         > = Spike (Right) - 3
         < = Spike (Left) - 4
@@ -55,7 +59,7 @@ class levelLoader(object):
         B = Door Bottom
         O = Coin
         """
-		level = open('levels/level' + str(self.level) + '.txt', 'r')
+		level = open(Directory.getDirectory() + '/levels/level' + str(self.level) + '.txt', 'r')
 		for row in level:
 		    for col in row:
 		    	if col.isdigit() and self.loadedCoins == False:
@@ -118,10 +122,10 @@ class levelLoader(object):
 
 		# Try loading in the level image and theme; if it fails, use level 0 theme and background
 		try:
-		    self.background = pygame.image.load('images/backgrounds/background' + str(self.level) + '.png').convert_alpha()
+		    self.background = pygame.image.load('data/images/backgrounds/background' + str(self.level) + '.png').convert_alpha()
 		    self.background_rect = self.background.get_rect()
 		except:
-		    self.background = pygame.image.load('images/backgrounds/background0.png').convert_alpha()
+		    self.background = pygame.image.load('data/images/backgrounds/background0.png').convert_alpha()
 		    self.background_rect = self.background.get_rect()
 
 	def getPlayer(self):

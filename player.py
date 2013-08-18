@@ -1,8 +1,10 @@
 import pygame
+from sys import exit
 from pygame.locals import *
 from entities import *
 from display import Display
 from sounds import Sounds
+from directory import Directory
 
 Display = Display()
 sounds = Sounds()
@@ -23,7 +25,7 @@ class Player(Entity):
         self.up = False
         self.right = False
         self.left = False
-        self.image = pygame.transform.scale(pygame.image.load("images/Thief.png"), (40, 40))
+        self.image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/Thief.png"), (40, 40))
         self.image.convert_alpha()
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = Rect(x, y, 32, 40)
@@ -37,13 +39,13 @@ class Player(Entity):
                 self.yvel -= 10
         if left and self.dead == False:
             self.direction = 'left'
-            self.image = pygame.transform.scale(pygame.image.load("images/Thief2.png"), (40, 40))
+            self.image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/Thief2.png"), (40, 40))
             self.image.convert_alpha()
             self.mask = pygame.mask.from_surface(self.image)
             self.xvel = -8
         if right and self.dead == False:
             self.direction = 'right'
-            self.image = pygame.transform.scale(pygame.image.load("images/Thief.png"), (40, 40))
+            self.image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/Thief.png"), (40, 40))
             self.image.convert_alpha()
             self.mask = pygame.mask.from_surface(self.image)
             self.xvel = 8
@@ -105,8 +107,6 @@ class Player(Entity):
             if e.type == KEYDOWN and e.key == K_RIGHT:
                 self.direction = 'right'
                 self.right = True
-            if e.type == KEYDOWN and e.key == K_ESCAPE:
-                exit()
             if e.type == KEYDOWN and e.key == K_w:
                 self.onGround = False
                 self.up = True
