@@ -44,6 +44,8 @@ class levelLoader(object):
 
 		self.reloading = False
 
+		self.showDebug = False
+
 	def buildLevel(self):
 		"""
 		KEY FOR LEVELS
@@ -122,10 +124,10 @@ class levelLoader(object):
 
 		# Try loading in the level image and theme; if it fails, use level 0 theme and background
 		try:
-		    self.background = pygame.image.load('data/images/backgrounds/background' + str(self.level) + '.png').convert_alpha()
+		    self.background = pygame.image.load(Directory.getDirectory() + '/images/backgrounds/background' + str(self.level) + '.png').convert_alpha()
 		    self.background_rect = self.background.get_rect()
 		except:
-		    self.background = pygame.image.load('data/images/backgrounds/background0.png').convert_alpha()
+		    self.background = pygame.image.load(Directory.getDirectory() + '/images/backgrounds/background0.png').convert_alpha()
 		    self.background_rect = self.background.get_rect()
 
 	def getPlayer(self):
@@ -214,3 +216,13 @@ class levelLoader(object):
 
 	def getLevelCoins(self):
 		return self.levelCoins
+
+	def infoScreen(self):
+		self.debug = Display.font.render("Information Window", True, (255,255,255))
+		self.death_status = Display.font.render("player.canDie: " + str(self.getPlayer().canDie), True, (255,255,255))
+		self.door_status = Display.font.render("door_closed: " + str(self.doorsClosed), True, (255,255,255))
+		self.coin_debug = Display.font.render("coin_count: " + str(self.getPlayer().getCoins()), True, (255,255,255))
+		Display.screen.blit(self.debug, (0,0))
+		Display.screen.blit(self.death_status, (0,25))
+		Display.screen.blit(self.door_status, (0,50))
+		Display.screen.blit(self.coin_debug, (0,75))

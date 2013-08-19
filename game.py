@@ -19,6 +19,7 @@ from trophies import Trophy
 from themes import Themes
 from deaths import Deaths
 from levelLoader import levelLoader
+from directory import Directory
 
 from camera import *
 
@@ -68,6 +69,7 @@ def main():
         timer.tick(38)
 
         levelLoader.getPlayer().getKeyPress()
+        levelLoader.infoScreen()
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
             levelLoader.getPlayer().addCoin()
@@ -75,7 +77,6 @@ def main():
             if sounds.mute == False:
                 sounds.coin_sound.play()
                 sounds.coin_sound.set_volume(sounds.getVolume())
-            levelLoader.getPlayer().canHitCoin = True
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             try:
@@ -89,7 +90,6 @@ def main():
                 levelLoader.rebuildObjects()
                 pause.sleep(5)
                 levelLoader.buildLevel()
-                print "Loaded level: " + str(levelLoader.getLevel())
                 levelLoader.entities.add(levelLoader.getPlayer())
                 try:
                     if sounds.mute == False:
@@ -102,16 +102,12 @@ def main():
                         pygame.mixer.music.play(-1, 0.0)
                         pygame.mixer.music.set_volume(sounds.getVolume())
             except:
-                print "Exception found; attempting reload of main menu"
                 Display.gameOver()
-                print "Game Over blit"
                 pygame.display.update()
                 pause.sleep(5)
                 Display.reloadTitleScreen()
                 Deaths.resetDeathsTotal()
                 levelLoader.resetLevel()
-                print Display.title
-                print "main menu loaded"
                 break
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
@@ -166,6 +162,7 @@ while Display.title == True:
         if e.type == MOUSEBUTTONDOWN:
             if Display.b1.collidepoint(pos):
                 Display.title = False
+                print "Working directory: " + Directory().getDirectory()
                 main() # Clicked to start the game
             if Display.b2.collidepoint(pos):
                 Display.tutstatus = True

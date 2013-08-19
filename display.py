@@ -21,12 +21,18 @@ class Display(object):
 		self.FLAGS = 0
 		self.CAMERA_SLACK = 30
 
+		self.icon = pygame.image.load(Directory().getDirectory() + "/images/winicon.ico")
+		self.icon.set_alpha(0)
+		pygame.display.set_icon(self.icon)
+
 		self.screen = pygame.display.set_mode(self.DISPLAY, self.FLAGS, self.DEPTH)
 		self.screen_rect = self.screen.get_rect()
 
 		self.font = pygame.font.SysFont("arial", 25)
 
 		self.loadingBar = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/button.png"), (self.WIN_WIDTH, 35))
+
+		self.showDebug = False
 
 	def getWinWidth(self):
 		return self.WIN_WIDTH

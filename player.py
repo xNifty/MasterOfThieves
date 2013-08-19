@@ -130,6 +130,17 @@ class Player(Entity):
                 print "new coin count: " + str(self.coin_count)
             if e.type == KEYDOWN and e.key == K_e:
                 self.yvel -= 20
+            if e.type == KEYDOWN and e.key == K_i:
+                if Display.showDebug == False:
+                    Display.showDebug = True
+                    print "pressed key"
+                    print Display.showDebug
+                    break
+                if Display.showDebug == True:
+                    Display.showDebug = False
+                    print "pressed key again"
+                    print Display.showDebug
+                    break
 
             if e.type == KEYUP and e.key == K_SPACE:
                 self.onGround = True
