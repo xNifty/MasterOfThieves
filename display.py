@@ -34,6 +34,8 @@ class Display(object):
 
 		self.showDebug = False
 
+		self.gameVersion = self.font.render('2.0', True, (255,255,255))
+
 	def getWinWidth(self):
 		return self.WIN_WIDTH
 
@@ -121,3 +123,6 @@ class Display(object):
 		                self.titleScreen() # Clicked to go back to main menu
 		                pygame.display.update()
 		    pygame.display.update()
+
+	def getGameVersion(self):
+		self.screen.blit(self.gameVersion,  (0, self.WIN_HEIGHT-25))

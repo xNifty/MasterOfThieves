@@ -20,7 +20,6 @@ from themes import Themes
 from deaths import Deaths
 from levelLoader import levelLoader
 from directory import Directory
-
 from camera import *
 
 pygame.init()
@@ -28,6 +27,7 @@ pygame.init()
 sounds = Sounds()
 levelLoader = levelLoader()
 Deaths = Deaths()
+sounds = Sounds()
 
 cgitb.enable(logdir='errors', display=False, format='text')
 
@@ -37,9 +37,9 @@ def main():
 
     pygame.mouse.set_visible(False)
 
-    sounds = Sounds()
-
     levelLoader.buildLevel()
+
+    print "this game instance is reading from: " + Directory().getDirectory()
     try:
         if sounds.mute == False:
             theme = (Themes(levelLoader.getLevel()))
@@ -57,8 +57,8 @@ def main():
     levelLoader.entities.add(levelLoader.getPlayer())
            
     while 1:
-        pygame.display.set_caption("Master of Thieves | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(Deaths.getLevelDeaths()) + " | Deaths (Total): " + str(Deaths.getDeathsTotal()) + 
-            " | FPS: " + str(int(timer.get_fps())))
+        pygame.display.set_caption("Master of Thieves | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(Deaths.getLevelDeaths()) + 
+            " | Deaths (Total): " + str(Deaths.getDeathsTotal()) + " | FPS: " + str(int(timer.get_fps())))
         asize = ((Display.screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (Display.screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
         bg = pygame.Surface(asize)
 
@@ -169,4 +169,5 @@ while Display.title == True:
                 Display.tutorial() # Clicked to go to the tutorial screen
             if Display.b3.collidepoint(pos):
                 exit()
+    Display.getGameVersion()
     pygame.display.update()
