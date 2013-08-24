@@ -5,6 +5,7 @@ from sys import exit
 
 from directory import Directory
 from sounds import Sounds
+from variables import Variables
 
 pygame.init()
 sounds = Sounds()
@@ -34,10 +35,9 @@ class Display(object):
 
 		self.loadingBar = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/button.png"), (self.WIN_WIDTH, 35))
 
-		self.showDebug = False
 		self.optionsMenu = False
 
-		self.gameVersion = self.font.render('Alpha 2.0 Build', True, (0,0,0))
+		self.gameVersion = self.font.render('Alpha 2.0.1', True, (0,0,0))
 
 	def getWinWidth(self):
 		return self.WIN_WIDTH
@@ -82,12 +82,15 @@ class Display(object):
 		self.exit2 = pygame.image.load(Directory().getDirectory() + '/images/intro/exit2.png')
 		self.tut = pygame.image.load(Directory().getDirectory() + '/images/intro/tutorial.png')
 		self.tut2 = pygame.image.load(Directory().getDirectory() + '/images/intro/tutorial2.png')
+		self.options = pygame.image.load(Directory().getDirectory() + '/images/intro/options.png')
+		self.options2 = pygame.image.load(Directory().getDirectory() + '/images/intro/options1.png')
 
 		# Blit the initial images to the screen; order: PLAY, TUT, EXIT
 		self.screen.blit(self.background_image, (0,0))
 		self.b1 = self.screen.blit(self.play, (0,100))
 		self.b2 = self.screen.blit(self.tut, (0,200))
-		self.b3 = self.screen.blit(self.exit, (0,300))
+		self.b3 = self.screen.blit(self.options, (0,300))
+		self.b4 = self.screen.blit(self.exit, (0,400))
 		self.title = True # Title status is true while the game waits for the user to make a choice
 
 		# We want the cursor on the main menu and tutorial screen.
@@ -130,3 +133,66 @@ class Display(object):
 
 	def getGameVersion(self):
 		self.screen.blit(self.gameVersion,  (1, self.WIN_HEIGHT-27))
+
+	def optionsScreen(self):
+		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/title_bg.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
+		self.screen.blit(self.background_image, (0,0))
+
+		self.menu = pygame.image.load(Directory().getDirectory() + '/images/intro/menu.png')
+		self.menu2 = pygame.image.load(Directory().getDirectory() + '/images/intro/menu2.png')
+		self.mute = pygame.image.load(Directory().getDirectory() + '/images/intro/mute.png')
+		self.mute1 = pygame.image.load(Directory().getDirectory() + '/images/intro/mute1.png')
+		self.volumeInc = pygame.image.load(Directory().getDirectory() + '/images/intro/volume+.png')
+		self.volumeInc1 = pygame.image.load(Directory().getDirectory() + '/images/intro/volume+1.png')
+		self.volumeDec = pygame.image.load(Directory().getDirectory() + '/images/intro/volume-.png')
+		self.volumeDec1 = pygame.image.load(Directory().getDirectory() + '/images/intro/volume-1.png')
+
+		self.m1 = self.screen.blit(self.menu, (0,100))
+		self.m2 = self.screen.blit(self.mute, (0,200))
+		self.m3 = self.screen.blit(self.volumeInc, (0,300))
+		self.m4 = self.screen.blit(self.volumeDec, (0,400))
+
+		while self.optionsMenu == True:
+			pygame.display.set_caption("Master of Thieves - Options | Muted: " + str(Variables.mute) + " | Current Volume (when not muted): " + str(Variables.volume))
+			for e in pygame.event.get():
+				self.pos = pygame.mouse.get_pos()
+				if e.type == QUIT:
+					exit()
+				if e.type == MOUSEMOTION:
+					if self.m1.collidepoint(self.pos):
+						self.screen.blit(self.menu2, (0,100))
+					elif self.m2.collidepoint(self.pos):
+						self.screen.blit(self.mute1, (0,200))
+					elif self.m3.collidepoint(self.pos):
+						self.screen.blit(self.volumeInc1, (0,300))
+					elif self.m4.collidepoint(self.pos):
+						self.screen.blit(self.volumeDec1, (0,400))
+					else:
+						self.screen.blit(self.menu, (0,100))
+						self.screen.blit(self.mute, (0,200))
+						self.screen.blit(self.volumeInc, (0,300))
+						self.screen.blit(self.volumeDec, (0,400))
+				if e.type == MOUSEBUTTONDOWN:
+					if self.m1.collidepoint(self.pos):
+						self.optionsMenu = False
+						self.titleScreen()
+						print Variables.mute
+						self.getGameVersion()
+					if self.m2.collidepoint(self.pos):
+						if Variables.mute == False:
+							Variables.mute = True
+							break
+						if Variables.mute == True:
+							Variables.mute = False
+							break
+					if self.m3.collidepoint(self.pos):
+						if Variables.volume <= 0.9:
+							Variables.volume += 0.1
+						else:
+							Variables.volume = 1.0
+					if self.m4.collidepoint(self.pos):
+						if Variables.volume >= 0.2:
+							Variables.volume -= 0.1
+						else:
+							Variables.volume = 0.1
+			pygame.display.update()

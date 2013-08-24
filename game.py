@@ -21,6 +21,7 @@ from deaths import Deaths
 from levelLoader import levelLoader
 from directory import Directory
 from camera import *
+from variables import Variables
 
 pygame.init()
 
@@ -29,12 +30,9 @@ levelLoader = levelLoader()
 Deaths = Deaths()
 sounds = Sounds()
 
-canUseKeys = True
-
 cgitb.enable(logdir='errors', display=False, format='text')
 
 def main():
-    global canUseKeys
     pygame.mixer.pre_init(44100, -16, 2, 2048)
     timer = pygame.time.Clock()
 
@@ -42,24 +40,24 @@ def main():
 
     print "this game instance is reading from: " + Directory().getDirectory()
     levelLoader.buildLevel()
+    Variables.canUseKeys = False
 
     try:
-        if sounds.mute == False:
+        if Variables.mute == False:
             theme = (Themes(levelLoader.getLevel()))
             pygame.mixer.music.play(-1, 0.0)
-            pygame.mixer.music.set_volume(sounds.getVolume())
+            pygame.mixer.music.set_volume(Variables.volume)
     except:
-        if sounds.muted == False:
+        if Variables.muted == False:
             theme = (Themes(0))
             pygame.mixer.music.play(-1, 0.0)
-            pygame.mixer.music.set_volume(sounds.getVolume())
+            pygame.mixer.music.set_volume(Variables.volume)
 
     total_level_width  = len('level'[0])*32
     total_level_height = len('level')*32
     camera = Camera(complex_camera, total_level_width, total_level_height)
     levelLoader.entities.add(levelLoader.getPlayer())
     pygame.display.update()
-    print sounds.mute
            
     while 1:
         pygame.display.set_caption("Master of Thieves | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(Deaths.getLevelDeaths()) + 
@@ -74,13 +72,13 @@ def main():
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
             levelLoader.getPlayer().addCoin()
-            if sounds.mute == False:
+            if Variables.mute == False:
                 sounds.coin_sound.play()
-                sounds.coin_sound.set_volume(sounds.getVolume())
+                sounds.coin_sound.set_volume(Variables.volume)
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             try:
-                canUseKeys = False
+                Variables.canUseKeys = False
                 levelLoader.addLevel()
                 Display.loadingLevel(levelLoader.getLevel())
                 Deaths.resetLevelDeaths()
@@ -93,15 +91,15 @@ def main():
                 levelLoader.buildLevel()
                 levelLoader.entities.add(levelLoader.getPlayer())
                 try:
-                    if sounds.mute == False:
+                    if Variables.mute == False:
                         theme = (Themes(levelLoader.getLevel()))
                         pygame.mixer.music.play(-1, 0.0)
-                        pygame.mixer.music.set_volume(sounds.getVolume())
+                        pygame.mixer.music.set_volume(Variables.volume)
                 except:
-                    if sounds.mute == False:
+                    if Variables.mute == False:
                         theme = (Themes(0))
                         pygame.mixer.music.play(-1, 0.0)
-                        pygame.mixer.music.set_volume(sounds.getVolume())
+                        pygame.mixer.music.set_volume(Variables.volume)
             except:
                 Display.gameOver()
                 pygame.display.update()
@@ -116,7 +114,7 @@ def main():
             levelLoader.getPlayer().dead = True
 
         if levelLoader.getPlayer().dead == True:
-            canUseKeys = False
+            Variables.canUseKeys = False
             levelLoader.rebuildDoors()
             Deaths.addDeaths()
             levelLoader.getPlayer().resetCoins()
@@ -128,9 +126,9 @@ def main():
             levelLoader.entities.add(levelLoader.getPlayer())
 
         if levelLoader.getPlayer().getCoins() >= levelLoader.getLevelCoins() and levelLoader.doorStatus() == True:
-            if sounds.mute == False:
+            if Variables.mute == False:
                 sounds.door.play()
-                sounds.door.set_volume(sounds.getVolume())
+                sounds.door.set_volume(Variables.volume)
             for x in xrange(2):
                 levelLoader.delPlatforms()
             levelLoader.delDoors()
@@ -141,13 +139,13 @@ def main():
         for e in levelLoader.getEntities():
             Display.screen.blit(e.image, camera.apply(e))
 
-        if canUseKeys == True:
+        if Variables.canUseKeys == True:
             levelLoader.getPlayer().getKeyPress()
 
         Display.getGameVersion()
         levelLoader.infoScreen()
         pygame.display.update()
-        canUseKeys = True
+        Variables.canUseKeys = True
 
 Display.titleScreen()
 Display.getGameVersion()
@@ -162,11 +160,14 @@ while Display.title == True:
             elif Display.b2.collidepoint(pos):
                 Display.screen.blit(Display.tut2, (0,200))
             elif Display.b3.collidepoint(pos):
-                Display.screen.blit(Display.exit2, (0,300))
+                Display.screen.blit(Display.options2, (0,300))
+            elif Display.b4.collidepoint(pos):
+                Display.screen.blit(Display.exit2, (0,400))
             else:
                 Display.screen.blit(Display.play, (0,100))
                 Display.screen.blit(Display.tut, (0,200))
-                Display.screen.blit(Display.exit, (0,300))
+                Display.screen.blit(Display.options, (0,300))
+                Display.screen.blit(Display.exit, (0,400))
         if e.type == MOUSEBUTTONDOWN:
             if Display.b1.collidepoint(pos):
                 Display.title = False
@@ -175,5 +176,8 @@ while Display.title == True:
                 Display.tutstatus = True
                 Display.tutorial()
             if Display.b3.collidepoint(pos):
+                Display.optionsMenu = True
+                Display.optionsScreen()
+            if Display.b4.collidepoint(pos):
                 exit()
     pygame.display.update()
