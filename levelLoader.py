@@ -42,8 +42,6 @@ class levelLoader(object):
 		self.levelCoins = 0
 		self.loadedCoins = False
 
-		self.reloading = False
-
 		self.showDebug = False
 
 	def buildLevel(self):
@@ -98,9 +96,9 @@ class levelLoader(object):
 		            self.entities.add(spike) # Add the spike to the entities
 		            self.spikes.add(spike) # Add the spike to the spike sprite group for collison purposes
 		        if col == "O":
-		            coin = Coins(self.x, self.y) # Load a coin image at the given x,y
-		            self.entities.add(coin) # Coin 1 to the entities
-		            self.coin.add(coin) # add coin 1 to the coinA sprite group
+					coin = Coins(self.x, self.y) # Load a coin image at the given x,y
+					self.entities.add(coin) # Coin 1 to the entities
+					self.coin.add(coin) # add coin 1 to the coinA sprite group
 		        if col == "X":
 					try:
 						win_object = Trophy(self.x, self.y, self.level) # Load the proper trophy by passing the level to the trophy class and load at the given x,y from file loading

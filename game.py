@@ -29,24 +29,27 @@ levelLoader = levelLoader()
 Deaths = Deaths()
 sounds = Sounds()
 
+canUseKeys = True
+
 cgitb.enable(logdir='errors', display=False, format='text')
 
 def main():
+    global canUseKeys
     pygame.mixer.pre_init(44100, -16, 2, 2048)
     timer = pygame.time.Clock()
 
     pygame.mouse.set_visible(False)
 
+    print "this game instance is reading from: " + Directory().getDirectory()
     levelLoader.buildLevel()
 
-    print "this game instance is reading from: " + Directory().getDirectory()
     try:
         if sounds.mute == False:
             theme = (Themes(levelLoader.getLevel()))
             pygame.mixer.music.play(-1, 0.0)
             pygame.mixer.music.set_volume(sounds.getVolume())
     except:
-        if sounds.mute == False:
+        if sounds.muted == False:
             theme = (Themes(0))
             pygame.mixer.music.play(-1, 0.0)
             pygame.mixer.music.set_volume(sounds.getVolume())
@@ -55,12 +58,13 @@ def main():
     total_level_height = len('level')*32
     camera = Camera(complex_camera, total_level_width, total_level_height)
     levelLoader.entities.add(levelLoader.getPlayer())
+    pygame.display.update()
+    print sounds.mute
            
     while 1:
         pygame.display.set_caption("Master of Thieves | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(Deaths.getLevelDeaths()) + 
             " | Deaths (Total): " + str(Deaths.getDeathsTotal()) + " | FPS: " + str(int(timer.get_fps())))
         asize = ((Display.screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (Display.screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
-        bg = pygame.Surface(asize)
 
         for x in range(0, asize[0], levelLoader.getBGWidth()):
             for y in range(0, asize[1], levelLoader.getBGHeight()):
@@ -68,18 +72,15 @@ def main():
 
         timer.tick(38)
 
-        levelLoader.getPlayer().getKeyPress()
-        levelLoader.infoScreen()
-
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
             levelLoader.getPlayer().addCoin()
-            print levelLoader.getPlayer().getCoins()
             if sounds.mute == False:
                 sounds.coin_sound.play()
                 sounds.coin_sound.set_volume(sounds.getVolume())
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             try:
+                canUseKeys = False
                 levelLoader.addLevel()
                 Display.loadingLevel(levelLoader.getLevel())
                 Deaths.resetLevelDeaths()
@@ -108,14 +109,14 @@ def main():
                 Display.reloadTitleScreen()
                 Deaths.resetDeathsTotal()
                 levelLoader.resetLevel()
+                pygame.mixer.music.stop()
                 break
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
             levelLoader.getPlayer().dead = True
 
         if levelLoader.getPlayer().dead == True:
-            levelLoader.reloading = True
-            levelLoader.getPlayer().onGround = True
+            canUseKeys = False
             levelLoader.rebuildDoors()
             Deaths.addDeaths()
             levelLoader.getPlayer().resetCoins()
@@ -140,34 +141,39 @@ def main():
         for e in levelLoader.getEntities():
             Display.screen.blit(e.image, camera.apply(e))
 
+        if canUseKeys == True:
+            levelLoader.getPlayer().getKeyPress()
+
+        Display.getGameVersion()
+        levelLoader.infoScreen()
         pygame.display.update()
-       
+        canUseKeys = True
+
 Display.titleScreen()
+Display.getGameVersion()
 while Display.title == True:
     for e in pygame.event.get():
         pos = pygame.mouse.get_pos()
-        if e.type == QUIT: # "X"ed out of the game
+        if e.type == QUIT:
             exit()
-        if e.type == MOUSEMOTION: # If the user scrolls over one of the buttons change to the image with the red background so that the user knows they are on it
+        if e.type == MOUSEMOTION:
             if Display.b1.collidepoint(pos):
-                Display.screen.blit(Display.play2, (0, 100))
+                Display.screen.blit(Display.play2, (0,100))
             elif Display.b2.collidepoint(pos):
-                Display.screen.blit(Display.tut2, (0, 200))
+                Display.screen.blit(Display.tut2, (0,200))
             elif Display.b3.collidepoint(pos):
-                Display.screen.blit(Display.exit2, (0, 300))
-            else: # Show the orange background image if the user is not scrolled over the image
-                Display.screen.blit(Display.play, (0, 100))
-                Display.screen.blit(Display.tut, (0, 200))
-                Display.screen.blit(Display.exit, (0, 300))
+                Display.screen.blit(Display.exit2, (0,300))
+            else:
+                Display.screen.blit(Display.play, (0,100))
+                Display.screen.blit(Display.tut, (0,200))
+                Display.screen.blit(Display.exit, (0,300))
         if e.type == MOUSEBUTTONDOWN:
             if Display.b1.collidepoint(pos):
                 Display.title = False
-                print "Working directory: " + Directory().getDirectory()
-                main() # Clicked to start the game
+                main()
             if Display.b2.collidepoint(pos):
                 Display.tutstatus = True
-                Display.tutorial() # Clicked to go to the tutorial screen
+                Display.tutorial()
             if Display.b3.collidepoint(pos):
                 exit()
-    Display.getGameVersion()
     pygame.display.update()

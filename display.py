@@ -4,8 +4,10 @@ import os
 from sys import exit
 
 from directory import Directory
+from sounds import Sounds
 
 pygame.init()
+sounds = Sounds()
 
 class Display(object):
 	def __init__(self):
@@ -33,8 +35,9 @@ class Display(object):
 		self.loadingBar = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/button.png"), (self.WIN_WIDTH, 35))
 
 		self.showDebug = False
+		self.optionsMenu = False
 
-		self.gameVersion = self.font.render('2.0', True, (255,255,255))
+		self.gameVersion = self.font.render('Alpha 2.0 Build', True, (0,0,0))
 
 	def getWinWidth(self):
 		return self.WIN_WIDTH
@@ -82,9 +85,9 @@ class Display(object):
 
 		# Blit the initial images to the screen; order: PLAY, TUT, EXIT
 		self.screen.blit(self.background_image, (0,0))
-		self.b1 = self.screen.blit(self.play, (0, 100))
-		self.b2 = self.screen.blit(self.tut, (0, 200))
-		self.b3 = self.screen.blit(self.exit, (0, 300))
+		self.b1 = self.screen.blit(self.play, (0,100))
+		self.b2 = self.screen.blit(self.tut, (0,200))
+		self.b3 = self.screen.blit(self.exit, (0,300))
 		self.title = True # Title status is true while the game waits for the user to make a choice
 
 		# We want the cursor on the main menu and tutorial screen.
@@ -121,8 +124,9 @@ class Display(object):
 		            if self.m1.collidepoint(self.pos):
 		            	self.tutstatus = False
 		                self.titleScreen() # Clicked to go back to main menu
+		                self.getGameVersion()
 		                pygame.display.update()
 		    pygame.display.update()
 
 	def getGameVersion(self):
-		self.screen.blit(self.gameVersion,  (0, self.WIN_HEIGHT-25))
+		self.screen.blit(self.gameVersion,  (1, self.WIN_HEIGHT-27))

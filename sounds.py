@@ -2,8 +2,10 @@ import pygame
 from pygame.locals import *
 from directory import Directory
 
+pygame.init()
 
-class Sounds():
+
+class Sounds(object):
 
 	def __init__(self):
 		"""Handles loading the sound files; they are called by doing sounds.NAME in the game class."""
@@ -15,3 +17,6 @@ class Sounds():
 
 	def getVolume(self):
 		return self.volume
+
+	def getMute(self):
+		return self.mute
