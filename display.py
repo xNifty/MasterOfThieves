@@ -32,12 +32,13 @@ class Display(object):
 		self.screen_rect = self.screen.get_rect()
 
 		self.font = pygame.font.SysFont("arial", 25)
+		self.buildFont = pygame.font.SysFont("arial", 12)
 
 		self.loadingBar = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/button.png"), (self.WIN_WIDTH, 35))
 
 		self.optionsMenu = False
 
-		self.gameVersion = self.font.render('Alpha 2.0.1', True, (0,0,0))
+		self.gameVersion = self.buildFont.render('Alpha 2.0.1', True, (0,0,0))
 
 	def getWinWidth(self):
 		return self.WIN_WIDTH
@@ -132,7 +133,7 @@ class Display(object):
 		    pygame.display.update()
 
 	def getGameVersion(self):
-		self.screen.blit(self.gameVersion,  (1, self.WIN_HEIGHT-27))
+		self.screen.blit(self.gameVersion,  (1, self.WIN_HEIGHT-15))
 
 	def optionsScreen(self):
 		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/title_bg.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
@@ -153,7 +154,7 @@ class Display(object):
 		self.m4 = self.screen.blit(self.volumeDec, (0,400))
 
 		while self.optionsMenu == True:
-			pygame.display.set_caption("Master of Thieves - Options | Muted: " + str(Variables.mute) + " | Current Volume (when not muted): " + str(Variables.volume))
+			pygame.display.set_caption("Master of Thieves - Options | Muted: " + str(Variables.muted) + " | Current Volume (when not muted): " + str(Variables.volume))
 			for e in pygame.event.get():
 				self.pos = pygame.mouse.get_pos()
 				if e.type == QUIT:
@@ -176,23 +177,27 @@ class Display(object):
 					if self.m1.collidepoint(self.pos):
 						self.optionsMenu = False
 						self.titleScreen()
-						print Variables.mute
+						print Variables.muted
 						self.getGameVersion()
 					if self.m2.collidepoint(self.pos):
-						if Variables.mute == False:
-							Variables.mute = True
+						if Variables.muted == False:
+							Variables.volume = 0.0
+							Variables.muted = True
 							break
-						if Variables.mute == True:
-							Variables.mute = False
+						if Variables.muted == True:
+							Variables.volume = 0.2
+							Variables.muted = False
 							break
 					if self.m3.collidepoint(self.pos):
 						if Variables.volume <= 0.9:
 							Variables.volume += 0.1
+							Variables.muted = False
 						else:
 							Variables.volume = 1.0
 					if self.m4.collidepoint(self.pos):
-						if Variables.volume >= 0.2:
+						if Variables.volume >= 0.1:
 							Variables.volume -= 0.1
-						else:
-							Variables.volume = 0.1
+						if Variables.volume < 0.1:
+							Variables.volume = 0.0
+							Variables.muted = True
 			pygame.display.update()

@@ -42,17 +42,6 @@ def main():
     levelLoader.buildLevel()
     Variables.canUseKeys = False
 
-    try:
-        if Variables.mute == False:
-            theme = (Themes(levelLoader.getLevel()))
-            pygame.mixer.music.play(-1, 0.0)
-            pygame.mixer.music.set_volume(Variables.volume)
-    except:
-        if Variables.muted == False:
-            theme = (Themes(0))
-            pygame.mixer.music.play(-1, 0.0)
-            pygame.mixer.music.set_volume(Variables.volume)
-
     total_level_width  = len('level'[0])*32
     total_level_height = len('level')*32
     camera = Camera(complex_camera, total_level_width, total_level_height)
@@ -72,12 +61,12 @@ def main():
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
             levelLoader.getPlayer().addCoin()
-            if Variables.mute == False:
-                sounds.coin_sound.play()
-                sounds.coin_sound.set_volume(Variables.volume)
+            sounds.coin_sound.play()
+            sounds.coin_sound.set_volume(Variables.volume)
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             try:
+                Variables.theme = False
                 Variables.canUseKeys = False
                 levelLoader.addLevel()
                 Display.loadingLevel(levelLoader.getLevel())
@@ -90,16 +79,6 @@ def main():
                 pause.sleep(5)
                 levelLoader.buildLevel()
                 levelLoader.entities.add(levelLoader.getPlayer())
-                try:
-                    if Variables.mute == False:
-                        theme = (Themes(levelLoader.getLevel()))
-                        pygame.mixer.music.play(-1, 0.0)
-                        pygame.mixer.music.set_volume(Variables.volume)
-                except:
-                    if Variables.mute == False:
-                        theme = (Themes(0))
-                        pygame.mixer.music.play(-1, 0.0)
-                        pygame.mixer.music.set_volume(Variables.volume)
             except:
                 Display.gameOver()
                 pygame.display.update()
@@ -109,6 +88,20 @@ def main():
                 levelLoader.resetLevel()
                 pygame.mixer.music.stop()
                 break
+
+        if Variables.muted == False and Variables.loadedTheme == False:
+            Variables.loadedTheme = True
+            try:
+                theme = (Themes(levelLoader.getLevel()))
+            except:
+                theme = (Themes(0))
+            pygame.mixer.music.set_volume(Variables.volume)
+            pygame.mixer.music.play(-1, 0.0)
+            print "theme chosen"
+
+        if Variables.muted == True:
+            Variables.volume = 0.0
+            Variables.loadedTheme = False
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
             levelLoader.getPlayer().dead = True
@@ -126,9 +119,8 @@ def main():
             levelLoader.entities.add(levelLoader.getPlayer())
 
         if levelLoader.getPlayer().getCoins() >= levelLoader.getLevelCoins() and levelLoader.doorStatus() == True:
-            if Variables.mute == False:
-                sounds.door.play()
-                sounds.door.set_volume(Variables.volume)
+            sounds.door.play()
+            sounds.door.set_volume(Variables.volume)
             for x in xrange(2):
                 levelLoader.delPlatforms()
             levelLoader.delDoors()

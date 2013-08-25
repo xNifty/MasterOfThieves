@@ -5,6 +5,7 @@ from entities import *
 from display import Display
 from sounds import Sounds
 from directory import Directory
+from variables import Variables
 
 Display = Display()
 sounds = Sounds()
@@ -131,6 +132,19 @@ class Player(Entity):
                 print "new coin count: " + str(self.coin_count)
             if e.type == KEYDOWN and e.key == K_e:
                 self.yvel -= 20
+            if e.type == KEYDOWN and e.key == K_m:
+                if Variables.volume > 0.0 and Variables.muted == False:
+                    print Variables.volume
+                    Variables.volume = 0.0
+                    Variables.muted = True
+                    print Variables.volume
+                    break
+                if Variables.volume == 0.0 and Variables.muted == True:
+                    print Variables.volume
+                    Variables.volume = 0.2
+                    Variables.muted = False
+                    print Variables.volume
+                    break
 
             if e.type == KEYUP and e.key == K_SPACE:
                 self.onGround = True
