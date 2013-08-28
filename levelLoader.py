@@ -65,11 +65,9 @@ class levelLoader(object):
 		    	if col.isdigit() and self.loadedCoins == False:
 		    		if int(col) > 0:
 		    			self.loadedCoins = True
-		    			print "found number: " + str(col)
 		    			self.levelCoins = int(col)
 		    		else:
 		    			self.loadedCoins = True
-		    			print "got no coin amount...assuming a set of 1"
 		    			self.levelCoins = 1
 		        if col == "P":
 		            p = Platform(self.x, self.y) # Place a platform at the given x,y

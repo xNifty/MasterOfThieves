@@ -4,7 +4,6 @@ import pygame
 import time as pause
 from pygame import *
 import cgitb
-import os
 from sys import exit
 import pygame._view
 
@@ -38,8 +37,9 @@ def main():
 
     pygame.mouse.set_visible(False)
 
-    print "this game instance is reading from: " + Directory().getDirectory()
+    print "Successfully reading from directory: " + Directory().getDirectory()
     levelLoader.buildLevel()
+    starting_time = pause.time()
     Variables.canUseKeys = False
 
     total_level_width  = len('level'[0])*32
@@ -65,8 +65,15 @@ def main():
             sounds.coin_sound.set_volume(Variables.volume)
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
+            if Variables.showTime == True:
+                print "getting time!"
+                end_time = pause.time()
+                Variables.total_time = float("{0:.2f}".format(end_time - starting_time))
+                print str(Variables.total_time)
+                Display.loadingScreen()
+                pygame.mouse.set_visible(False)
             try:
-                Variables.theme = False
+                Variables.loadedTheme = False
                 Variables.canUseKeys = False
                 levelLoader.addLevel()
                 Display.loadingLevel(levelLoader.getLevel())
@@ -79,6 +86,7 @@ def main():
                 pause.sleep(5)
                 levelLoader.buildLevel()
                 levelLoader.entities.add(levelLoader.getPlayer())
+                starting_time = pause.time()
             except:
                 Display.gameOver()
                 pygame.display.update()
@@ -92,15 +100,18 @@ def main():
         if Variables.muted == False and Variables.loadedTheme == False:
             Variables.loadedTheme = True
             try:
+                print "\nAttempting to choose level specific theme..."
                 theme = (Themes(levelLoader.getLevel()))
             except:
+                print "Failed to load level specific theme; attempting default theme..."
                 theme = (Themes(0))
             pygame.mixer.music.set_volume(Variables.volume)
             pygame.mixer.music.play(-1, 0.0)
-            print "theme chosen"
+            print "Theme selection successful."
 
         if Variables.muted == True:
             Variables.volume = 0.0
+            pygame.mixer.music.stop()
             Variables.loadedTheme = False
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:

@@ -17,3 +17,6 @@ class Deaths(object):
 
 	def resetLevelDeaths(self):
 		self.levelDeaths = 0
+
+	def resetDeathsTotal(self):
+		self.deaths = 0

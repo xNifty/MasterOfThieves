@@ -1,14 +1,17 @@
 import pygame
 from pygame.locals import *
 import os
+import webbrowser
 from sys import exit
 
 from directory import Directory
 from sounds import Sounds
 from variables import Variables
+from deaths import Deaths
 
 pygame.init()
 sounds = Sounds()
+deaths = Deaths()
 
 class Display(object):
 	def __init__(self):
@@ -147,14 +150,20 @@ class Display(object):
 		self.volumeInc1 = pygame.image.load(Directory().getDirectory() + '/images/intro/volume+1.png')
 		self.volumeDec = pygame.image.load(Directory().getDirectory() + '/images/intro/volume-.png')
 		self.volumeDec1 = pygame.image.load(Directory().getDirectory() + '/images/intro/volume-1.png')
+		self.showTime = pygame.image.load(Directory().getDirectory() + '/images/intro/showtime.png')
+		self.showTime1 = pygame.image.load(Directory().getDirectory() + '/images/intro/showtime1.png')
+		self.bug = pygame.image.load(Directory().getDirectory() + '/images/intro/bug.png')
+		self.bug1 = pygame.image.load(Directory().getDirectory() + '/images/intro/bug1.png')
 
 		self.m1 = self.screen.blit(self.menu, (0,100))
 		self.m2 = self.screen.blit(self.mute, (0,200))
 		self.m3 = self.screen.blit(self.volumeInc, (0,300))
 		self.m4 = self.screen.blit(self.volumeDec, (0,400))
+		self.m5 = self.screen.blit(self.showTime, (0,500))
+		self.m6 = self.screen.blit(self.bug, (0,600))
 
 		while self.optionsMenu == True:
-			pygame.display.set_caption("Master of Thieves - Options | Muted: " + str(Variables.muted) + " | Current Volume (when not muted): " + str(Variables.volume))
+			pygame.display.set_caption("Master of Thieves - Options | Muted: " + str(Variables.muted) + " | Current Volume: " + str(Variables.volume) + " | time-per-level: " + str(Variables.showTime))
 			for e in pygame.event.get():
 				self.pos = pygame.mouse.get_pos()
 				if e.type == QUIT:
@@ -168,11 +177,17 @@ class Display(object):
 						self.screen.blit(self.volumeInc1, (0,300))
 					elif self.m4.collidepoint(self.pos):
 						self.screen.blit(self.volumeDec1, (0,400))
+					elif self.m5.collidepoint(self.pos):
+						self.screen.blit(self.showTime1, (0,500))
+					elif self.m6.collidepoint(self.pos):
+						self.screen.blit(self.bug1, (0,600))
 					else:
 						self.screen.blit(self.menu, (0,100))
 						self.screen.blit(self.mute, (0,200))
 						self.screen.blit(self.volumeInc, (0,300))
 						self.screen.blit(self.volumeDec, (0,400))
+						self.screen.blit(self.showTime, (0,500))
+						self.screen.blit(self.bug, (0,600))
 				if e.type == MOUSEBUTTONDOWN:
 					if self.m1.collidepoint(self.pos):
 						self.optionsMenu = False
@@ -200,4 +215,45 @@ class Display(object):
 						if Variables.volume < 0.1:
 							Variables.volume = 0.0
 							Variables.muted = True
+					if self.m5.collidepoint(self.pos):
+						if Variables.showTime == False:
+							Variables.showTime = True
+							break
+						if Variables.showTime == True:
+							Variables.showTime = False
+							break
+					if self.m6.collidepoint(self.pos):
+						webbrowser.open('http://wepcgame.com/issues/my_view_page.php')
 			pygame.display.update()
+
+	def loadingScreen(self):
+		"""Upcoming system to show deaths that level, time taken, etc. """
+		self.continueButton = pygame.image.load(Directory().getDirectory() + '/images/intro/play.png')
+		self.continueButton2 = pygame.image.load(Directory().getDirectory() + '/images/intro/play2.png')
+
+		# pygame.display.set_caption("Master of Thieves")
+		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/backgrounds/background0.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
+		self.screen.blit(self.background_image, (0,0))
+		self.showAddedDeaths()
+		pygame.mouse.set_visible(True)
+		self.m1 = self.screen.blit(self.continueButton, (0, 75))
+		self.loadingStatus = True
+		while self.loadingStatus == True:
+			for e in pygame.event.get():
+				self.pos = pygame.mouse.get_pos()
+				if e.type == QUIT:
+					exit()
+				if e.type == MOUSEMOTION:
+					if self.m1.collidepoint(self.pos): # Scrolling over the Main Menu button, so change the image so the user knows they are on it
+						self.screen.blit(self.continueButton2, (0, 75))
+					else:
+						self.screen.blit(self.continueButton, (0, 75)) # Change back to the normal image since the user is no longer on it
+				if e.type == MOUSEBUTTONDOWN:
+					if self.m1.collidepoint(self.pos):
+						self.loadingStatus = False
+			pygame.display.update()
+
+	def showAddedDeaths(self):
+		self.deathsFont = pygame.font.SysFont("Comic Sans MS", 35)
+		self.completedLevel = self.deathsFont.render("You took " + str(Variables.total_time) + " seconds to complete the level", True, (0,0,0))
+		self.screen.blit(self.completedLevel, (0, 30))

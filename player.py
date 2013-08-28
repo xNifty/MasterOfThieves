@@ -55,7 +55,8 @@ class Player(Entity):
             # only accelerate with gravity if in the air
             self.yvel += 0.95
             # max falling speed
-            if self.yvel > 100: self.yvel = 100
+            if self.yvel > 100: 
+                self.yvel = 100
         if not(left or right):
             self.xvel = 0
 
@@ -134,16 +135,12 @@ class Player(Entity):
                 self.yvel -= 20
             if e.type == KEYDOWN and e.key == K_m:
                 if Variables.volume > 0.0 and Variables.muted == False:
-                    print Variables.volume
                     Variables.volume = 0.0
                     Variables.muted = True
-                    print Variables.volume
                     break
                 if Variables.volume == 0.0 and Variables.muted == True:
-                    print Variables.volume
                     Variables.volume = 0.2
                     Variables.muted = False
-                    print Variables.volume
                     break
 
             if e.type == KEYUP and e.key == K_SPACE:
