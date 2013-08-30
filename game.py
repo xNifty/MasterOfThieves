@@ -59,6 +59,18 @@ def main():
 
         timer.tick(38)
 
+        if Variables.muted == False and Variables.loadedTheme == False:
+            Variables.loadedTheme = True
+            try:
+                print "\nAttempting to choose level specific theme..."
+                theme = (Themes(levelLoader.getLevel()))
+            except:
+                print "Failed to load level specific theme; attempting default theme..."
+                theme = (Themes(0))
+            pygame.mixer.music.set_volume(Variables.volume)
+            pygame.mixer.music.play(-1, 0.0)
+            print "Theme selection successful."
+
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
             levelLoader.getPlayer().addCoin()
             sounds.coin_sound.play()
@@ -96,18 +108,6 @@ def main():
                 levelLoader.resetLevel()
                 pygame.mixer.music.stop()
                 break
-
-        if Variables.muted == False and Variables.loadedTheme == False:
-            Variables.loadedTheme = True
-            try:
-                print "\nAttempting to choose level specific theme..."
-                theme = (Themes(levelLoader.getLevel()))
-            except:
-                print "Failed to load level specific theme; attempting default theme..."
-                theme = (Themes(0))
-            pygame.mixer.music.set_volume(Variables.volume)
-            pygame.mixer.music.play(-1, 0.0)
-            print "Theme selection successful."
 
         if Variables.muted == True:
             Variables.volume = 0.0
@@ -150,6 +150,9 @@ def main():
         pygame.display.update()
         Variables.canUseKeys = True
 
+Display.preMenu()
+pygame.display.update()
+pause.sleep(5)
 Display.titleScreen()
 Display.getGameVersion()
 while Display.title == True:

@@ -3,6 +3,8 @@ from pygame.locals import *
 import os
 import webbrowser
 from sys import exit
+import Tkinter
+import tkMessageBox
 
 from directory import Directory
 from sounds import Sounds
@@ -12,6 +14,8 @@ from deaths import Deaths
 pygame.init()
 sounds = Sounds()
 deaths = Deaths()
+root = Tkinter.Tk()
+root.withdraw()
 
 class Display(object):
 	def __init__(self):
@@ -223,7 +227,11 @@ class Display(object):
 							Variables.showTime = False
 							break
 					if self.m6.collidepoint(self.pos):
-						webbrowser.open('http://wepcgame.com/issues/my_view_page.php')
+						result = tkMessageBox.askquestion("Issues Page Launcher", "This will launch a webbrowser directed to the MoT issues page; click 'yes' if you are okay with this or no to cancel.", icon='warning')
+						if result == "yes":
+							webbrowser.open('http://wepcgame.com/issues/my_view_page.php')
+						else:
+							break
 			pygame.display.update()
 
 	def loadingScreen(self):
@@ -234,7 +242,7 @@ class Display(object):
 		# pygame.display.set_caption("Master of Thieves")
 		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/backgrounds/background0.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
 		self.screen.blit(self.background_image, (0,0))
-		self.showAddedDeaths()
+		self.showTimeTaken()
 		pygame.mouse.set_visible(True)
 		self.m1 = self.screen.blit(self.continueButton, (0, 75))
 		self.loadingStatus = True
@@ -253,7 +261,12 @@ class Display(object):
 						self.loadingStatus = False
 			pygame.display.update()
 
-	def showAddedDeaths(self):
+	def showTimeTaken(self):
 		self.deathsFont = pygame.font.SysFont("Comic Sans MS", 35)
 		self.completedLevel = self.deathsFont.render("You took " + str(Variables.total_time) + " seconds to complete the level", True, (0,0,0))
 		self.screen.blit(self.completedLevel, (0, 30))
+
+	def preMenu(self):
+		pygame.mouse.set_visible(True)
+		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/premenu.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
+		self.screen.blit(self.background_image, (0,0))

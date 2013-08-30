@@ -12,11 +12,3 @@ class Sounds(object):
 		self.coin_sound = pygame.mixer.Sound(Directory().getDirectory() + '/sounds/game/coin_sound.wav')
 		self.death_sound = pygame.mixer.Sound(Directory().getDirectory() + '/sounds/game/death.wav')
 		self.door = pygame.mixer.Sound(Directory().getDirectory() + '/sounds/game/door.wav')
-		self.volume = 0.05
-		self.mute = False
-
-	def getVolume(self):
-		return self.volume
-
-	def getMute(self):
-		return self.mute

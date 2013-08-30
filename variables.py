@@ -6,7 +6,5 @@ class Variables(object):
 	canUseKeys = True
 	muted = False
 	loadedTheme = False
-	loadedNewLevel = False
-	addedDeaths = 0
 	total_time = 0
 	showTime = False
