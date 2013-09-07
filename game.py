@@ -5,7 +5,7 @@ import time as pause
 from pygame import *
 import cgitb
 from sys import exit
-import pygame._view
+import pygame._view # needed when I was using pygame2exe...not sure it's needed anymore
 
 from entities import Entity
 from player import Player
@@ -59,17 +59,18 @@ def main():
 
         timer.tick(38)
 
-        if Variables.muted == False and Variables.loadedTheme == False:
+        if Variables.loadedTheme == False:
             Variables.loadedTheme = True
             try:
                 print "\nAttempting to choose level specific theme..."
                 theme = (Themes(levelLoader.getLevel()))
+                print "Level specific theme selection successful."
             except:
                 print "Failed to load level specific theme; attempting default theme..."
                 theme = (Themes(0))
-            pygame.mixer.music.set_volume(Variables.volume)
+                print "Loaded backup theme."
             pygame.mixer.music.play(-1, 0.0)
-            print "Theme selection successful."
+        pygame.mixer.music.set_volume(Variables.volume)
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
             levelLoader.getPlayer().addCoin()
@@ -78,7 +79,7 @@ def main():
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             if Variables.showTime == True:
-                print "getting time!"
+                print "getting time for level: " + str(levelLoader.getLevel())
                 end_time = pause.time()
                 Variables.total_time = float("{0:.2f}".format(end_time - starting_time))
                 print str(Variables.total_time)
@@ -108,11 +109,6 @@ def main():
                 levelLoader.resetLevel()
                 pygame.mixer.music.stop()
                 break
-
-        if Variables.muted == True:
-            Variables.volume = 0.0
-            pygame.mixer.music.stop()
-            Variables.loadedTheme = False
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
             levelLoader.getPlayer().dead = True

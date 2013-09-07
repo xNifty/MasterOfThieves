@@ -8,3 +8,7 @@ class Variables(object):
 	loadedTheme = False
 	total_time = 0
 	showTime = False
+	oldVolume = 0.0
+
+	def saveVolume(old):
+		oldVolume = volume

@@ -135,11 +135,15 @@ class Player(Entity):
                 self.yvel -= 20
             if e.type == KEYDOWN and e.key == K_m:
                 if Variables.volume > 0.0 and Variables.muted == False:
+                    Variables.oldVolume = Variables.volume
                     Variables.volume = 0.0
+                    print "oldVolume: " + str(Variables.oldVolume) + "; current: " + str(Variables.volume)
                     Variables.muted = True
                     break
                 if Variables.volume == 0.0 and Variables.muted == True:
-                    Variables.volume = 0.2
+                    Variables.volume = Variables.oldVolume
+                    Variables.oldVolume = 0.0
+                    print "oldVolume: " + str(Variables.oldVolume) + "; current: " + str(Variables.volume)
                     Variables.muted = False
                     break
 

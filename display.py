@@ -31,6 +31,7 @@ class Display(object):
 		self.FLAGS = 0
 		self.CAMERA_SLACK = 30
 
+		self.GAMENAME = "Master of Thieves"
 		self.icon = pygame.image.load(Directory().getDirectory() + "/images/winicon.ico")
 		self.icon.set_alpha(0)
 		pygame.display.set_icon(self.icon)
@@ -69,7 +70,7 @@ class Display(object):
 		return self.FLAGS
 
 	def gameOver(self):
-		self.wonGame = self.font.render("You beat Master of Thieves!", True, (255,255,255))
+		self.wonGame = self.font.render("You beat " + self.GAMENAME + "!", True, (255,255,255))
 		self.screen.blit(self.loadingBar, (0,0))
 		self.screen.blit(self.wonGame, (10,2))
 
@@ -80,7 +81,7 @@ class Display(object):
 		self.screen.blit(self.loading, (10,2))
 
 	def titleScreen(self):
-		pygame.display.set_caption("Master of Thieves") # Window caption
+		pygame.display.set_caption(self.GAMENAME) # Window caption
 		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/title_bg.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Load the title background
 
 		# All of the button images - probably should have loaded through images like the rest
@@ -111,7 +112,7 @@ class Display(object):
 		pygame.display.update()
 
 	def tutorial(self):
-		pygame.display.set_caption("Master of Thieves")
+		pygame.display.set_caption(self.GAMENAME)
 		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/tutscreen.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
 		self.screen.blit(self.background_image, (0,0))
 
@@ -167,7 +168,7 @@ class Display(object):
 		self.m6 = self.screen.blit(self.bug, (0,600))
 
 		while self.optionsMenu == True:
-			pygame.display.set_caption("Master of Thieves - Options | Muted: " + str(Variables.muted) + " | Current Volume: " + str(Variables.volume) + " | time-per-level: " + str(Variables.showTime))
+			pygame.display.set_caption(self.GAMENAME + " - Options | Muted: " + str(Variables.muted) + " | Current Volume: " + str(Variables.volume) + " | time-per-level: " + str(Variables.showTime))
 			for e in pygame.event.get():
 				self.pos = pygame.mouse.get_pos()
 				if e.type == QUIT:
@@ -267,6 +268,7 @@ class Display(object):
 		self.screen.blit(self.completedLevel, (0, 30))
 
 	def preMenu(self):
+		pygame.display.set_caption(self.GAMENAME)
 		pygame.mouse.set_visible(True)
 		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/premenu.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
 		self.screen.blit(self.background_image, (0,0))
