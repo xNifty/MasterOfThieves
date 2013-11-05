@@ -76,6 +76,8 @@ def main():
         for coin in coinCollide:
             if coin:
                 levelLoader.getPlayer().addCoin()
+                sounds.coin_sound.play()
+                sounds.coin_sound.set_volume(Variables.volume)
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             if Variables.showTime == True:
