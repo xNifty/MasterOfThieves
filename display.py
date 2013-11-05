@@ -1,10 +1,10 @@
 import pygame
-from pygame.locals import *
 import os
 import webbrowser
-from sys import exit
 import Tkinter
 import tkMessageBox
+from pygame.locals import *
+from sys import exit
 
 from directory import Directory
 from sounds import Sounds
@@ -31,7 +31,8 @@ class Display(object):
 		self.FLAGS = 0
 		self.CAMERA_SLACK = 30
 
-		self.GAMENAME = "Master of Thieves"
+		self.GAMENAME = "Master of Thieves" # Set the game name
+
 		self.icon = pygame.image.load(Directory().getDirectory() + "/images/winicon.ico")
 		self.icon.set_alpha(0)
 		pygame.display.set_icon(self.icon)
@@ -227,12 +228,12 @@ class Display(object):
 						if Variables.showTime == True:
 							Variables.showTime = False
 							break
-					if self.m6.collidepoint(self.pos):
-						result = tkMessageBox.askquestion("Issues Page Launcher", "This will launch a webbrowser directed to the MoT issues page; click 'yes' if you are okay with this or no to cancel.", icon='warning')
-						if result == "yes":
-							webbrowser.open('http://wepcgame.com/issues/my_view_page.php')
-						else:
-							break
+					#if self.m6.collidepoint(self.pos):
+					#	result = tkMessageBox.askquestion("Issues Page Launcher", "This will launch a webbrowser directed to the MoT issues page; click 'yes' if you are okay with this or no to cancel.", icon='warning')
+					#	if result == "yes":
+					#		webbrowser.open('http://wepcgame.com/issues/my_view_page.php')
+					#	else:
+					#		break
 			pygame.display.update()
 
 	def loadingScreen(self):
@@ -272,3 +273,6 @@ class Display(object):
 		pygame.mouse.set_visible(True)
 		self.background_image = pygame.transform.scale(pygame.image.load(Directory().getDirectory() + "/images/intro/premenu.png"), (self.WIN_WIDTH, self.WIN_HEIGHT)) # Tutorial background
 		self.screen.blit(self.background_image, (0,0))
+
+	def gameName(self):
+		return self.GAMENAME

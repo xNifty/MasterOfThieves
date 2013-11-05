@@ -2,8 +2,8 @@
 # !!! WARNING !!! The game will break if the level does not contain the player ("C") within; the game may break if the door Top and Bottom is not found as well.
 
 import pygame
-from pygame.locals import *
 import re
+from pygame.locals import *
 
 from entities import Entity
 from player import Player
@@ -49,10 +49,10 @@ class levelLoader(object):
 		KEY FOR LEVELS
         P = Platform
         C = player starting position
-        ^ = Spike (Up) - 1
-        V = Spike (Down) - 2
+        A = Spike (Up)    - 1
+        V = Spike (Down)  - 2
         > = Spike (Right) - 3
-        < = Spike (Left) - 4
+        < = Spike (Left)  - 4
         K = Key
         X = Trophy
         T = Door Top

@@ -1,24 +1,10 @@
-PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-P                                                 P
-PO                                               OP
-PPP>                                         P><PPP
-P                                                 P
-P   <P>                                 P         P
-P    V              A                             P
-P      <P>         <P>                      <P>   P
-PA      V                C                        P
-PP>         <P>         <P> AAAAA      <P>        P
-PV           V             <PPPPP>                P
-P                <P>                       <P>    P
-PO                V                              OP
-PPP                  <P       <P>      <P>      PPP
-P  P                  V        V                  P
-P                        <P>      <P>             P
-P      <P>                                        P
-P       V                                      A OP
-PPPP                                          <PPPP
-P                                              T  P
-PO     P                                       B XP
-PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+P                                               P
+P                                  O            P
+P                          O       P           OP
+P                          P                  PPP
+P   O                     P             P     T P
+P C        A A            PO                  BXP
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
-6
+5

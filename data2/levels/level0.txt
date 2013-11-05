@@ -1,11 +1,7 @@
-PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-P                                 P
-P                                 P
-P                                 P
-P                                 P
-PO   O   O              O    PPPPPP
-P            P               T    P
-PC            AAAA           B   XP
-PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-
-4
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+P                                  P
+P          OOO                   PPP
+P          OOO                   T P
+PC         OOO                   BXP
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+9

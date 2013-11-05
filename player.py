@@ -1,4 +1,5 @@
 import pygame
+
 from sys import exit
 from pygame.locals import *
 from entities import *
@@ -180,6 +181,9 @@ class Player(Entity):
 
     def addCoin(self):
         self.coin_count += 1
-
+        
     def resetCoins(self):
         self.coin_count = 0
+
+    def isInAir(self):
+        return self.onGround

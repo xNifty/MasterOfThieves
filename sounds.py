@@ -4,7 +4,6 @@ from directory import Directory
 
 pygame.init()
 
-
 class Sounds(object):
 
 	def __init__(self):
