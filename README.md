@@ -28,5 +28,9 @@ Please note: all Nintendo themes and sprites have been removed and replaced with
 developers) and the theme replaced by one done by a friend (no link to him as of now).  The game is entirely open source
 and I hope in time others will begin to help with development.
 
+I am an extremely novice programmer (as seen in my bad programming habits / mistakes) but I do enjoy it greatly, even when
+I get really frustrated.  I have a good network of friends who help me with issues that I am unable to solve on my
+own and for that I am thankful.
+
 As a background note, I am completely pro open-source and 99% of anything I ever do (on my own) will be open source.  Obviously,
 this cannot carry over into anything I may do in the future with a business and/or company.
