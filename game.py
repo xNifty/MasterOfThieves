@@ -2,10 +2,9 @@
 
 import pygame
 import time as pause
-from pygame import *
 import cgitb
+from pygame import *
 from sys import exit
-import pygame._view # needed when I was using pygame2exe...not sure it's needed anymore
 
 from entities import Entity
 from player import Player
@@ -19,8 +18,9 @@ from themes import Themes
 from deaths import Deaths
 from levelLoader import levelLoader
 from directory import Directory
-from camera import *
 from variables import Variables
+
+from camera import *
 
 pygame.init()
 
@@ -49,7 +49,7 @@ def main():
     pygame.display.update()
            
     while 1:
-        pygame.display.set_caption("Master of Thieves | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(Deaths.getLevelDeaths()) + 
+        pygame.display.set_caption(Display.gameName() + " | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(Deaths.getLevelDeaths()) + 
             " | Deaths (Total): " + str(Deaths.getDeathsTotal()) + " | FPS: " + str(int(timer.get_fps())))
         asize = ((Display.screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (Display.screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
 
@@ -72,10 +72,10 @@ def main():
             pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.set_volume(Variables.volume)
 
-        if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask):
-            levelLoader.getPlayer().addCoin()
-            sounds.coin_sound.play()
-            sounds.coin_sound.set_volume(Variables.volume)
+        coinCollide = pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask)
+        for coin in coinCollide:
+            if coin:
+                levelLoader.getPlayer().addCoin()
 
         if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
             if Variables.showTime == True:
