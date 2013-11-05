@@ -2,32 +2,35 @@ MasterOfThieves
 ===============
 
 Master of Thieves was a game written for my four week long game design course.  The game was put together by a group of
-three of us who contributed in different ways.  Although nearly all of the sprites (except the character, bricks, and spikes)
-are copyrighted, we decided in this version to be a tribute to Nintendo and have some fun.  I'll upload the game design
-document at a later time, which contains everything you would need concerning all of this.
+three of us who contributed in different ways over a course of three days.  Originally a "tribute to Nintendo", all sprites
+and themes (music) have been replaced with custom sprites and a custom theme (more to come in time).  The game is now
+only worked on by myself in my free time, but it does still recieve updates periodically.
 
 Currently
 ---------
-* Attempting further cleaning of game class
+* Writing pseudo-code for guards
+* Cleaning useless sections of the code
+* Attempting to redo some things that are implemented badly (were done to make things work quickly)
 
 Issues
 ------
 Known issues include:
-* multiple digits will keep setting the coin count until the final digit is found
+* N/A - need people to play and inform me
  
 More Information
 -----------------
-I forgot GitHub had a wiki and I am to lazy to copy one wiki to another, so if you would like to, you can find the wiki
-for the project here: http://wepcgame.com/wiki/doku.php?id=games:master-of-thieves
+Wiki coming soon; please submit issue tickets as needed so I can fix things
 
 
 Important
 ----------
-Please note: all Nintendo, Rare, and Sega sprites and music are copyrighted by their respected owners and/or creators
-and are being used in this game; no monetary gain is being made from this game and we are in no way profitting from
-the use of the stated themes, music, sprites, or anything of the.
+Please note: all Nintendo themes and sprites have been removed and replaced with ones designed by us (original game
+developers) and the theme replaced by one done by a friend (no link to him as of now).  The game is entirely open source
+and I hope in time others will begin to help with development.
 
-If you download the game or make additions or changes without the changing of the copyrighted material you are agreeing
-to not use the material to gain monetary value of any kind (and/or compensation).
+I am an extremely novice programmer (as seen in my bad programming habits / mistakes) but I do enjoy it greatly, even when
+I get really frustrated.  I have a good network of friends who help me with issues that I am unable to solve on my
+own and for that I am thankful.
 
-We will be changing out the themes, music, and sprites at a later time.
+As a background note, I am completely pro open-source and 99% of anything I ever do (on my own) will be open source.  Obviously,
+this cannot carry over into anything I may do in the future with a business and/or company.
