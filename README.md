@@ -8,14 +8,15 @@ only worked on by myself in my free time, but it does still recieve updates peri
 
 Currently
 ---------
-* Writing pseudo-code for guards
-* Cleaning useless sections of the code
+* Rewriting collision (most important!)
 * Attempting to redo some things that are implemented badly (were done to make things work quickly)
+* Writing pseudo-code for guards
+* Cleaning useless sections of the code - kind of an "always in progress" thing, so always on the list
 
 Issues
 ------
 Known issues include:
-* N/A - need people to play and inform me
+* Game always registers playing as "jumping" - makes using animations hard (currently being worked on)
  
 More Information
 -----------------
