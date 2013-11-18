@@ -16,7 +16,7 @@ Currently
 Issues
 ------
 Known issues include:
-* Game always registers playing as "jumping" - makes using animations hard (currently being worked on)
+* Game always registers player as "jumping" - makes using animations hard (currently being worked on)
  
 More Information
 -----------------
