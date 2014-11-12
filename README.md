@@ -1,6 +1,8 @@
 MasterOfThieves
 ===============
 
+READ READ READ : THIS GAME IS IN A TOTAL REWRITE TO NICER, CLEANER, MORE EFFECTIVE CODE. STAY TUNED FOR MORE INFORMATION OR FOLLOW AT MY BLOG: https://ibenifty.me/blog
+
 Master of Thieves was a game written for my four week long game design course.  The game was put together by a group of
 three of us who contributed in different ways over a course of three days.  Originally a "tribute to Nintendo", all sprites
 and themes (music) have been replaced with custom sprites and a custom theme (more to come in time).  The game is now
