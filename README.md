@@ -11,3 +11,5 @@ Issues
 Important
 ----------
 Please note: this game uses some rather bad coding styles, and was written over three years ago in three days.  It was a fun experience, but I'm under the impression (from the last time I tried to run this code), that it no longer works with newer versions of pygame.
+
+I would like to revisit the code at some point and redo the game, using things I've learned over the years to write better, more optimized code; as for now, that's not on my list of things to do, but someday.
