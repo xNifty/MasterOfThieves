@@ -88,21 +88,24 @@ def main():
                 Display.loadingScreen()
                 pygame.mouse.set_visible(False)
             try:
+                # @TODO : this block needs to change from try..catch for switching the level to a clean method
+                # @TODO : we need to be able to catch errors for actual logging to find out why something broke
                 Variables.loadedTheme = False
                 Variables.canUseKeys = False
                 LevelLoader.add_level()
                 Display.loadingLevel(LevelLoader.get_level())
                 Deaths.resetLevelDeaths()
                 LevelLoader.rebuildDoors()
-                LevelLoader.getPlayer().resetCoins()
-                LevelLoader.clearScreen()
+                LevelLoader.getPlayer().reset_coins()
+                LevelLoader.clear_screen()
                 pygame.display.update()
-                LevelLoader.rebuildObjects()
+                LevelLoader.rebuild_objects()
                 pause.sleep(5)
                 LevelLoader.buildLevel()
                 LevelLoader.entities.add(LevelLoader.getPlayer())
                 starting_time = pause.time()
-            except:
+            except Exception as ex:
+                print(ex)
                 Display.gameOver()
                 pygame.display.update()
                 pause.sleep(5)
@@ -119,10 +122,10 @@ def main():
             Variables.canUseKeys = False
             LevelLoader.rebuildDoors()
             Deaths.addDeaths()
-            LevelLoader.getPlayer().resetCoins()
-            LevelLoader.clearScreen()
+            LevelLoader.getPlayer().reset_coins()
+            LevelLoader.clear_screen()
             pygame.display.update()
-            LevelLoader.rebuildObjects()
+            LevelLoader.rebuild_objects()
             pause.sleep(1)
             LevelLoader.buildLevel()
             LevelLoader.entities.add(LevelLoader.getPlayer())

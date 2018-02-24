@@ -34,26 +34,25 @@ class Player(Entity):
         self.rect = Rect(x, y, 32, 40)
         self.canPressKey = True
 
-
     def update(self, up, left, right, platforms):
         """Handle the directions of the character and change the image based on left or right."""
         if up:
             # only jump if on the ground
             if self.on_ground:
                 self.yvel -= 10
-        if left and self.dead == False:
+        if left and not self.dead:
             self.direction = 'left'
             self.image = pygame.transform.scale(pygame.image.load(Directory().get_directory() + "/images/Thief2.png"), (40, 40))
             self.image.convert_alpha()
             self.mask = pygame.mask.from_surface(self.image)
             self.xvel = -8
-        if right and self.dead == False:
+        if right and not self.dead:
             self.direction = 'right'
             self.image = pygame.transform.scale(pygame.image.load(Directory().get_directory() + "/images/Thief.png"), (40, 40))
             self.image.convert_alpha()
             self.mask = pygame.mask.from_surface(self.image)
             self.xvel = 8
-        if self.on_ground == False:
+        if not self.on_ground:
             # only accelerate with gravity if in the air
             self.yvel += 0.95
             # max falling speed

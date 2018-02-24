@@ -56,6 +56,7 @@ class LevelLoader(object):
         O = Coin
         """
         level = open(Directory.get_directory() + '/levels/level' + str(self.level) + '.txt', 'r')
+        print("Updating to next level: {0}".format(level))
         for row in level:
             for col in row:
                 if col.isdigit() and self.loadedCoins == False:
@@ -163,7 +164,7 @@ class LevelLoader(object):
     def doorStatus(self):
         return self.doorsClosed
 
-    def clearScreen(self):
+    def clear_screen(self):
         self.player.on_ground = True
         self.x = 0
         self.y = 0
@@ -177,7 +178,7 @@ class LevelLoader(object):
         self.spikes.empty()
         self.coin.empty()
 
-    def rebuildObjects(self):
+    def rebuild_objects(self):
         self.level = self.level
         self.platforms = []
         self.doorsClosed = True
