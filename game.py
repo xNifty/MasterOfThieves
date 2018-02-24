@@ -1,33 +1,25 @@
 #! /usr/bin/python
 
-import pygame
 import time as pause
 import cgitb
 from pygame import *
 from sys import exit
 
-from entities import Entity
-from player import Player
-from platform import Platform
-from door import Door
-from coins import Coins
-from spike import Spike
-from sounds import Sounds
-from trophies import Trophy
-from themes import Themes
-from deaths import Deaths
-from levelLoader import levelLoader
-from directory import Directory
-from variables import Variables
+from BuildFunctions.sounds import Sounds
+from BuildFunctions.themes import Themes
+from BuildFunctions.deaths import Deaths
+from BuildFunctions.level_loader import LevelLoader
+from BuildFunctions.directory import Directory
+from BuildFunctions.variables import Variables
 
-from camera import *
+from Display.camera import *
 
 pygame.init()
 
 sounds = Sounds()
-levelLoader = levelLoader()
 Deaths = Deaths()
 sounds = Sounds()
+LevelLoader = LevelLoader()
 
 cgitb.enable(logdir='errors', display=False, format='text')
 
@@ -37,70 +29,78 @@ def main():
 
     pygame.mouse.set_visible(False)
 
-    print "Successfully reading from directory: " + Directory().getDirectory()
-    levelLoader.buildLevel()
+    print("Successfully reading from directory: " + Directory().get_directory())
+    LevelLoader.buildLevel()
     starting_time = pause.time()
     Variables.canUseKeys = False
 
-    total_level_width  = len('level'[0])*32
+    total_level_width = len('level'[0])*32
     total_level_height = len('level')*32
     camera = Camera(complex_camera, total_level_width, total_level_height)
-    levelLoader.entities.add(levelLoader.getPlayer())
+    LevelLoader.entities.add(LevelLoader.getPlayer())
     pygame.display.update()
            
     while 1:
-        pygame.display.set_caption(Display.gameName() + " | Level: " +str(levelLoader.getLevel()) + " | Deaths (level): " + str(Deaths.getLevelDeaths()) + 
-            " | Deaths (Total): " + str(Deaths.getDeathsTotal()) + " | FPS: " + str(int(timer.get_fps())))
-        asize = ((Display.screen_rect.w // levelLoader.getBGWidth() + 1) * levelLoader.getBGWidth(), (Display.screen_rect.h // levelLoader.getBGHeight() + 1) * levelLoader.getBGHeight())
+        pygame.display.set_caption(Display.gameName() + " | Level: " + str(LevelLoader.get_level()) +
+                                   " | Deaths (level): " + str(Deaths.getLevelDeaths()) +
+                                   " | Deaths (Total): " + str(Deaths.getDeathsTotal()) +
+                                   " | FPS: " + str(int(timer.get_fps()))
+                                   )
+        asize = (
+            (Display.screen_rect.w // LevelLoader.getBGWidth() + 1) * LevelLoader.getBGWidth(),
+            (Display.screen_rect.h // LevelLoader.getBGHeight() + 1) * LevelLoader.getBGHeight()
+        )
 
-        for x in range(0, asize[0], levelLoader.getBGWidth()):
-            for y in range(0, asize[1], levelLoader.getBGHeight()):
-                Display.screen.blit(levelLoader.getBackground(), (x, y))
+        for x in range(0, asize[0], LevelLoader.getBGWidth()):
+            for y in range(0, asize[1], LevelLoader.getBGHeight()):
+                Display.screen.blit(LevelLoader.getBackground(), (x, y))
 
         timer.tick(38)
 
-        if Variables.loadedTheme == False:
+        if not Variables.loadedTheme:
             Variables.loadedTheme = True
             try:
-                print "\nAttempting to choose level specific theme..."
-                theme = (Themes(levelLoader.getLevel()))
-                print "Level specific theme selection successful."
+                print("\nAttempting to choose level specific theme...")
+                theme = (Themes(LevelLoader.get_level()))
+                print("Level specific theme selection successful.")
             except:
-                print "Failed to load level specific theme; attempting default theme..."
+                print("Failed to load level specific theme; attempting default theme...")
                 theme = (Themes(0))
-                print "Loaded backup theme."
+                print("Loaded backup theme.")
             pygame.mixer.music.play(-1, 0.0)
         pygame.mixer.music.set_volume(Variables.volume)
 
-        coinCollide = pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getCoins(), True, pygame.sprite.collide_mask)
-        for coin in coinCollide:
+        coin_collide = pygame.sprite.spritecollide(
+            LevelLoader.getPlayer(), LevelLoader.get_coins(), True, pygame.sprite.collide_mask
+        )
+        for coin in coin_collide:
             if coin:
-                levelLoader.getPlayer().addCoin()
+                LevelLoader.getPlayer().add_coin()
                 sounds.coin_sound.play()
                 sounds.coin_sound.set_volume(Variables.volume)
 
-        if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getTrophy(), True, pygame.sprite.collide_mask):
-            if Variables.showTime == True:
-                print "getting time for level: " + str(levelLoader.getLevel())
+        if pygame.sprite.spritecollide(LevelLoader.getPlayer(), LevelLoader.getTrophy(), True, pygame.sprite.collide_mask):
+            if Variables.showTime:
+                print("getting time for level: " + str(LevelLoader.get_level()))
                 end_time = pause.time()
                 Variables.total_time = float("{0:.2f}".format(end_time - starting_time))
-                print str(Variables.total_time)
+                print(str(Variables.total_time))
                 Display.loadingScreen()
                 pygame.mouse.set_visible(False)
             try:
                 Variables.loadedTheme = False
                 Variables.canUseKeys = False
-                levelLoader.addLevel()
-                Display.loadingLevel(levelLoader.getLevel())
+                LevelLoader.add_level()
+                Display.loadingLevel(LevelLoader.get_level())
                 Deaths.resetLevelDeaths()
-                levelLoader.rebuildDoors()
-                levelLoader.getPlayer().resetCoins()
-                levelLoader.clearScreen()
+                LevelLoader.rebuildDoors()
+                LevelLoader.getPlayer().resetCoins()
+                LevelLoader.clearScreen()
                 pygame.display.update()
-                levelLoader.rebuildObjects()
+                LevelLoader.rebuildObjects()
                 pause.sleep(5)
-                levelLoader.buildLevel()
-                levelLoader.entities.add(levelLoader.getPlayer())
+                LevelLoader.buildLevel()
+                LevelLoader.entities.add(LevelLoader.getPlayer())
                 starting_time = pause.time()
             except:
                 Display.gameOver()
@@ -108,52 +108,58 @@ def main():
                 pause.sleep(5)
                 Display.reloadTitleScreen()
                 Deaths.resetDeathsTotal()
-                levelLoader.resetLevel()
+                LevelLoader.reset_level()
                 pygame.mixer.music.stop()
                 break
 
-        if pygame.sprite.spritecollide(levelLoader.getPlayer(), levelLoader.getSpikes(), False, pygame.sprite.collide_mask) and levelLoader.getPlayer().canDie == True:
-            levelLoader.getPlayer().dead = True
+        if pygame.sprite.spritecollide(LevelLoader.getPlayer(), LevelLoader.getSpikes(), False, pygame.sprite.collide_mask) and LevelLoader.getPlayer().canDie == True:
+            LevelLoader.getPlayer().dead = True
 
-        if levelLoader.getPlayer().dead == True:
+        if LevelLoader.getPlayer().dead:
             Variables.canUseKeys = False
-            levelLoader.rebuildDoors()
+            LevelLoader.rebuildDoors()
             Deaths.addDeaths()
-            levelLoader.getPlayer().resetCoins()
-            levelLoader.clearScreen()
+            LevelLoader.getPlayer().resetCoins()
+            LevelLoader.clearScreen()
             pygame.display.update()
-            levelLoader.rebuildObjects()
+            LevelLoader.rebuildObjects()
             pause.sleep(1)
-            levelLoader.buildLevel()
-            levelLoader.entities.add(levelLoader.getPlayer())
+            LevelLoader.buildLevel()
+            LevelLoader.entities.add(LevelLoader.getPlayer())
 
-        if levelLoader.getPlayer().getCoins() >= levelLoader.getLevelCoins() and levelLoader.doorStatus() == True:
+        if LevelLoader.getPlayer().get_coins() >= LevelLoader.get_level_coins() and LevelLoader.doorStatus() == True:
             sounds.door.play()
             sounds.door.set_volume(Variables.volume)
-            for x in xrange(2):
-                levelLoader.delPlatforms()
-            levelLoader.delDoors()
+            for x in range(2):
+                LevelLoader.delPlatforms()
+            LevelLoader.delDoors()
 
-        camera.update(levelLoader.getPlayer())
+        camera.update(LevelLoader.getPlayer())
 
-        levelLoader.getPlayer().update(levelLoader.getPlayer().up, levelLoader.getPlayer().left, levelLoader.getPlayer().right, levelLoader.getPlatforms())
-        for e in levelLoader.getEntities():
-            Display.screen.blit(e.image, camera.apply(e))
+        LevelLoader.getPlayer().update(
+            LevelLoader.getPlayer().up,
+            LevelLoader.getPlayer().left,
+            LevelLoader.getPlayer().right,
+            LevelLoader.getPlatforms()
+        )
+        for ent in LevelLoader.getEntities():
+            Display.screen.blit(ent.image, camera.apply(ent))
 
-        if Variables.canUseKeys == True:
-            levelLoader.getPlayer().getKeyPress()
+        if Variables.canUseKeys:
+            LevelLoader.getPlayer().get_key_press()
 
         Display.getGameVersion()
-        levelLoader.infoScreen()
+        LevelLoader.infoScreen()
         pygame.display.update()
         Variables.canUseKeys = True
 
-Display.preMenu()
-pygame.display.update()
-pause.sleep(5)
+
+#Display.preMenu()
+#pygame.display.update()
+#pause.sleep(5)
 Display.titleScreen()
 Display.getGameVersion()
-while Display.title == True:
+while Display.title:
     for e in pygame.event.get():
         pos = pygame.mouse.get_pos()
         if e.type == QUIT:
